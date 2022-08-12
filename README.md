@@ -1,6 +1,6 @@
-# Precision & recall calculator
+# Feature Restorer Metric Getter
 
-A Python class for calculating precision, recall and F-score metrics for the outputs of feature restoration models against reference strings.
+A Python class for calculating precision/recall/F-score and word error rate (WER) metrics for the outputs of feature restoration models against reference strings.
 
 ## Getting started
 
@@ -10,17 +10,23 @@ Recommended method for Google Colab notebooks:
 
 ```python
 import sys
-# Delete precision-recall-calculator folder to ensures that any changes to the repo are reflected
-!rm -rf 'precision-recall-calculator'
-# Clone precision-recall-calculator repo
-!git clone https://github.com/ljdyer/precision-recall-calculator.git
-# Add precision-recall-calculator to PYTHONPATH
-sys.path.append('precision-recall-calculator/src')
+# Delete feature-restorer-metric-getter folder to ensures that any changes to the repo are reflected
+!rm -rf 'feature-restorer-metric-getter'
+# Clone feature-restorer-metric-getter repo
+!git clone https://github.com/ljdyer/feature-restorer-metric-getter.git
+# Add feature-restorer-metric-getter to PYTHONPATH
+sys.path.append('feature-restorer-metric-getter/src')
 ```
 
 ### 2. Install requirements (if required)
 
-There is no need to install any libraries in Google Colab, as all required libraries are already pre-installed by default.
+If working in Google Colab, the only requirement is `jiwer`, as all other dependencies are installed by default
+
+```python
+!pip install jiwer
+```
+
+`jiwer` is only required for WER-related features, so you can still use Feature Restorer Metric Getter to calculate precision/recall/F-score metrics without it.
 
 If working in a virtual environment, run the following in the src directory:
 
@@ -28,15 +34,13 @@ If working in a virtual environment, run the following in the src directory:
 pip install -r requirements.txt
 ```
 
-### 3. Import PrecisionRecallCalculator class
+### 3. Import FeatureRestorerMetricGetter class
 
 ```python
-from prc_main import PrecisionRecallCalculator
+from feature_restorer_metric_getter import FeatureRestorerMetricGetter
 ```
 
 ## How to use
-
-See also [PrecisionRecallCalculator_Example.ipynb](src/PrecisionRecallCalculator_Example.ipynb) for example usage.
 
 ### Initializing a class instance
 

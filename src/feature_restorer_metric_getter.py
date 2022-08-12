@@ -1,5 +1,5 @@
 """
-main.py
+feature_restorer_metric_getter.py
 
 Main module for FeatureRestorerMetricGetter class
 """

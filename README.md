@@ -42,6 +42,8 @@ from feature_restorer_metric_getter import FeatureRestorerMetricGetter
 
 ## How to use
 
+You can also check out the example notebook [here](FeatureRestorerMetricGetter_Example.ipynb).
+
 ### Initializing a class instance
 
 ```python

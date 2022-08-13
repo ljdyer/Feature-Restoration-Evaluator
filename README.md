@@ -46,7 +46,7 @@ from feature_restorer_metric_getter import FeatureRestorerMetricGetter
 
 ```python
 # ====================
-class PrecisionRecallCalculator:
+class FeatureRestorerMetricGetter:
 
     # ====================
     def __init__(self,
@@ -54,9 +54,10 @@ class PrecisionRecallCalculator:
                  hypothesis: Str_or_List_or_Series,
                  capitalisation: bool,
                  feature_chars: Str_or_List,
-                 get_cms_on_init: bool = True):
+                 get_cms_on_init: bool = True,
+                 get_wer_info_on_init: bool = True):
         """
-        Initialize an instance of the PrecisionRecallCalculator class
+        Initialize an instance of the FeatureRestorerMetricGetter class
 
         Required arguments:
         -------------------
@@ -75,28 +76,33 @@ class PrecisionRecallCalculator:
         feature_chars:              A string or list of characters containing
             Str_or_List             other characters to treat as features
                                     (e.g. '., ' for periods, commas, and
-                                    spaces.)
+                                    spaces.) 
 
         Optional keyword arguments:
         ---------------------------
         get_cms_on_init: bool       Whether or not to get confusion matrices
                                     for all reference/hypothesis documents
-                                    on intiialization. Set to false and access
-                                    manually to save time if only looking at
-                                    metrics for a subset of documents in a
-                                    large corpus.
+                                    on intiialization. Set to False to save
+                                    time if you do not need precision, recall,
+                                    and F-score information or only need it
+                                    for a subset of documents.
+        get_wer_info_on_init:       Whether or not to calculate WERs for all
+            bool                    reference/hypothesis documents on
+                                    initialization. Set to False to save time
+                                    if you do not need WER information or only
+                                    need WER information for a subset of
+                                    documents.
         """
 ```
 
 #### Example usage:
 
 ```python
-RESULTS_DF_PATH = 'drive/MyDrive/Group Assignment/Results/end_to_end.csv'
-results_df_csv = pd.read_csv(RESULTS_DF_PATH)
-reference = results_df_csv['reference']
-hypothesis = results_df_csv['model_5_result']
-prc_TED = PrecisionRecallCalculator(
-    reference, hypothesis, True, '., ')
+TEST_PATH = 'drive/MyDrive/PAPER/data/ted_talks/ted_test.csv'
+RESULTS_PATH = 'drive/MyDrive/PAPER/models/05_bilstm_e2e/english/TedTalks/results.csv'
+reference = pd.read_csv(TEST_PATH)['all_cleaned'].to_list()
+hypothesis = pd.read_csv(RESULTS_PATH)['results'].to_list()
+frmg = FeatureRestorerMetricGetter(reference, hypothesis, True, '., ', False, False)
 ```
 
 <img src="readme-img/init.PNG"></img>
@@ -105,10 +111,12 @@ prc_TED = PrecisionRecallCalculator(
 
 ```python
     # ====================
-    def show_precision_recall_fscore(self, doc_idx: Int_or_Str = 'all'):
+    def show_prfs(self,
+                  doc_idx: Int_or_Str = 'all',
+                  for_latex: bool = False):
         """
         Show precision, recall and F-score for each feature, for
-        either a single document or the entire corpus.
+        either a single document all documents.
 
         Optional keyword arguments:
         ---------------------------
@@ -116,32 +124,26 @@ prc_TED = PrecisionRecallCalculator(
                                     the document to show metrics for, or 'all'
                                     to show metrics for all documents in the
                                     corpus (the default behaviour).
+        for_latex: bool             Whether or not to format the output for
+                                    LaTeX.
         """
-
-        feature_scores = {
-            self.feature_display_name(feature):
-            self.precision_recall_fscore_from_cm(
-                self.confusion_matrices[doc_idx][feature])
-            for feature in self.features + ['all']}
-        display_or_print(pd.DataFrame(feature_scores).transpose())
 ```
 
 #### Example usage:
 
 ```python
-prc_TED.show_precision_recall_fscore()
+frmg.show_prfs()
 ```
 
-<img src="readme-img/metrics.PNG"></img>
+<img src="readme-img/show_prfs.PNG"></img>
 
 ### Displaying confusion matrices
 
 ```python
     # ====================
     def show_confusion_matrices(self, doc_idx: Int_or_Str = 'all'):
-        """
-        Show confusion matrices for each feature, for either a
-        single document or the entire corpus.
+        """Show confusion matrices for each feature, for either a
+        single document or all documents.
 
         Optional keyword arguments:
         ---------------------------
@@ -156,7 +158,35 @@ prc_TED.show_precision_recall_fscore()
 #### Example usage:
 
 ```python
-prc_TED.show_confusion_matrices()
+fmrg.show_confusion_matrices()
 ```
 
-<img src="readme-img/confusion_matrices.PNG"></img>
+### Displaying WER information
+
+```python
+    # ====================
+    def show_wer_info(self,
+                      doc_idx: Int_or_Str = 'all',
+                      for_latex: bool = False):
+        """Show minimum edit distance, reference length, and word error rate
+        for either a single document or all documents.
+
+        Optional keyword arguments:
+        ---------------------------
+        doc_idx: Int_or_Str         Either an integer indicating the index of
+                                    the document to show confusion matrices
+                                    for, or 'all' to show confusion matrices
+                                    for all documents in the corpus (the
+                                    default behaviour).
+        for_latex: bool             Whether or not to format the output for
+                                    LaTeX.
+        """
+```
+
+#### Example usage:
+
+```python
+fmrg.show_wer_info()
+```
+
+<img src="readme-img/show_wer.PNG"></img>

@@ -184,7 +184,7 @@ class FeatureRestorerMetricGetter:
 
     # === CONFUSION MATRICES ===
 
-        # ====================
+    # ====================
     def show_confusion_matrices(self, doc_idx: Int_or_Str = 'all'):
         """Show confusion matrices for each feature, for either a
         single document or all documents.

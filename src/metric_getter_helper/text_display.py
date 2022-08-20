@@ -56,6 +56,32 @@ def show_text_display_(ref: str,
             display_or_print_html(html)
 
 
+# # ====================
+# def get_feature_errors(ref: str,
+#                        hyp: str,
+#                        features: list,
+#                        feature_to_check: str,
+#                        chars_either_side: int):
+
+#     ignore = [f for f in features if f != feature_to_check]
+#     chars = {'ref': list(ref), 'hyp': list(hyp)}
+#     output_chars = []
+#     while chars['ref'] and chars['hyp']:
+#         next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
+#         ignored_chars, chars = ignore_chars(chars, ignore)
+#         if check_same_char(next_char, chars) is not True:
+#             return None
+#         features_present, chars = get_features_present(
+#             next_char, chars, features)
+#         output_chars.extend(get_next_entries(
+#             next_char, features_present, features, feature_chars,
+#             ignored_chars=ignored_chars,
+#             ignore_caps='CAPITALISATION' in ignore,
+#             for_latex=for_latex
+#         ))
+#     return output_chars
+
+
 # ====================
 def label_fps_and_fns(chars: dict,
                       features: list,
@@ -75,7 +101,8 @@ def label_fps_and_fns(chars: dict,
             next_char, features_present, features, feature_chars,
             ignored_chars=ignored_chars,
             ignore_caps='CAPITALISATION' in ignore,
-            for_latex=for_latex))
+            for_latex=for_latex
+        ))
     return output_chars
 
 

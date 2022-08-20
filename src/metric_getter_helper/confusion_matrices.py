@@ -88,9 +88,9 @@ def show_prfs_latex(prfs: dict):
                         r"\head{F-score}\\")
     output_lines.append(r"\hline")
     for feature, scores in prfs.items():
-        new_line = (rf"{feature} & {scores['Precision']:.3f} & " +
-                    rf"{scores['Recall']:.3f} & " +
-                    rf"{scores['F-score']:.3f}\\")
+        new_line = (rf"{feature} & {scores['Precision']:.2f} & " +
+                    rf"{scores['Recall']:.2f} & " +
+                    rf"{scores['F-score']:.2f}\\")
         output_lines.append(new_line)
     print('\n'.join(output_lines))
 

@@ -63,26 +63,32 @@ def show_feature_errors_(ref: str,
                        feature_to_check: str,
                        chars_either_side: int):
 
-    ignore = [f for f in features if f != feature_to_check]
-    chars = {'ref': list(ref), 'hyp': list(hyp)}
-    chars_only = {'ref': [], 'hyp': []}
-    features_only = {'ref': [], 'hyp': []}
-    output_chars = []
-    while chars['ref'] and chars['hyp']:
-        next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
-        ignored_chars, chars = ignore_chars(chars, ignore)
-        if check_same_char(next_char, chars) is not True:
-            return None
-        features_present, chars = get_features_present(
-            next_char, chars, features)
-        chars_only['ref'].append(next_char['ref'])
-        features_only['ref'].append(features_present['ref'])
-        chars_only['hyp'].append(next_char['hyp'])
-        features_only['hyp'].append(features_present['hyp'])
-    print(chars_only['ref'][:100])
-    print(features_only['ref'][:100])
-    print(chars_only['hyp'][:100])
-    print(features_only['hyp'][:100])
+    print('Reference:')
+    chars_, features_ = split_chars_and_features(ref, features)
+    print(chars_[:100])
+    print(features_[:100])
+    print('Hypothesis:')
+    chars_, features_ = split_chars_and_features(hyp, features)
+    print(chars_[:100])
+    print(features_[:100])
+
+
+# ====================
+def split_chars_and_features(doc: str, features: list):
+
+    chars = list(ref)
+    chars_only = []
+    features_only = []
+    while chars:
+        next_char = chars.pop(0)
+        features_present = []
+        if 'CAPITALISATION' in features and next_char.isupper():
+            features_present.append('CAPITALISATION')
+        while len(chars) > 0 and chars[0] in features:
+            features_present.append(chars.pop(0))
+        chars_only.append(next_char)
+        features_only.append(features_present)
+    return chars_only, features_only
 
 
 # ====================

@@ -56,30 +56,33 @@ def show_text_display_(ref: str,
             display_or_print_html(html)
 
 
-# # ====================
-# def get_feature_errors(ref: str,
-#                        hyp: str,
-#                        features: list,
-#                        feature_to_check: str,
-#                        chars_either_side: int):
+# ====================
+def get_feature_errors_(ref: str,
+                       hyp: str,
+                       features: list,
+                       feature_to_check: str,
+                       chars_either_side: int):
 
-#     ignore = [f for f in features if f != feature_to_check]
-#     chars = {'ref': list(ref), 'hyp': list(hyp)}
-#     output_chars = []
-#     while chars['ref'] and chars['hyp']:
-#         next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
-#         ignored_chars, chars = ignore_chars(chars, ignore)
-#         if check_same_char(next_char, chars) is not True:
-#             return None
-#         features_present, chars = get_features_present(
-#             next_char, chars, features)
-#         output_chars.extend(get_next_entries(
-#             next_char, features_present, features, feature_chars,
-#             ignored_chars=ignored_chars,
-#             ignore_caps='CAPITALISATION' in ignore,
-#             for_latex=for_latex
-#         ))
-#     return output_chars
+    ignore = [f for f in features if f != feature_to_check]
+    chars = {'ref': list(ref), 'hyp': list(hyp)}
+    chars_only = {'ref': [], 'hyp': []}
+    features_only = {'ref': [], 'hyp': []}
+    output_chars = []
+    while chars['ref'] and chars['hyp']:
+        next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
+        ignored_chars, chars = ignore_chars(chars, ignore)
+        if check_same_char(next_char, chars) is not True:
+            return None
+        features_present, chars = get_features_present(
+            next_char, chars, features)
+        chars_only['ref'].append(next_char['ref'])
+        features_only['ref'].append(next_char['ref'])
+        chars_only['hyp'].append(next_char['hyp'])
+        features_only['hyp'].append(next_char['hyp'])
+    print(chars_only['ref'][:100])
+    print(features_only['ref'][:100])
+    print(chars_only['hyp'][:100])
+    print(features_only['hyp'][:100])
 
 
 # ====================

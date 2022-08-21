@@ -293,3 +293,17 @@ class FeatureRestorerMetricGetter:
             start_char=start_char, chars_per_row=chars_per_row,
             num_rows=num_rows, ignore=ignore, for_latex=for_latex
         )
+
+    # ====================
+    def show_feature_errors(self,
+                            doc_idx: int,
+                            features: list,
+                            feature_to_check: str,
+                            chars_either_side: int)
+
+        ref = self.reference[doc_idx].strip()
+        hyp = self.hypothesis[doc_idx].strip()
+        show_text_display(
+            ref, hyp, features,
+            feature_to_check, chars_either_side
+        )

@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-from metric_getter_helper.misc import check_same_char, display_or_print
+from metric_getter_helper.misc import check_same_char, display_or_print, list_gclust
 
 FEATURE_DISPLAY_NAMES = {
     'CAPITALISATION': "Capitalisation",
@@ -23,7 +23,7 @@ FEATURE_DISPLAY_NAMES_LATEX = {
 # ====================
 def cms(ref: str, hyp: str, features: list, doc_idx: int):
 
-    chars = {'ref': list(ref.strip()), 'hyp': list(hyp.strip())}
+    chars = {'ref': list_gclust(ref.strip()), 'hyp': list_gclust(hyp.strip())}
     features_present = {'ref': [], 'hyp': []}
     while chars['ref'] and chars['hyp']:
         next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}

@@ -17,6 +17,22 @@ Int_or_Str = Union[int, str]
 Str_or_List = Union[str, list]
 Str_or_List_or_Series = Union[str, list, pd.Series]
 
+from uniseg.graphemecluster import grapheme_clusters
+
+
+# ====================
+def len_gclust(str_: str) -> int:
+    """Return a the number of grapheme clusters in the string."""
+
+    return len(list_gclust(str_))
+
+
+# ====================
+def list_gclust(str_: str) -> list:
+    """Return a list of grapheme clusters in the string."""
+
+    return list(grapheme_clusters(str_))
+
 
 # ====================
 def check_same_char(next_char: dict, chars: dict,

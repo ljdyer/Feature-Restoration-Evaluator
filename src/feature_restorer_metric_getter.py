@@ -298,9 +298,8 @@ class FeatureRestorerMetricGetter:
     # ====================
     def show_feature_errors(self,
                             doc_idx: int,
-                            features: list,
                             feature_to_check: str,
-                            chars_either_side: int):
+                            chars_either_side: int = 10):
 
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()
@@ -308,5 +307,5 @@ class FeatureRestorerMetricGetter:
             ref, hyp,
             features=self.features,
             feature_to_check=feature_to_check,
-            chars_either_side=10
+            chars_either_side=chars_either_side
         )

@@ -1,6 +1,9 @@
 from metric_getter_helper.misc import check_same_char, display_or_print_html
 from metric_getter_helper.messages import ERROR_CHARS_PER_ROW_AND_NUM_ROWS
 from typing import Tuple
+import pandas as pd
+
+from src.metric_getter_helper.misc import display_or_print
 
 HTML_STYLE = """<style>
 .fp{
@@ -58,19 +61,43 @@ def show_text_display_(ref: str,
 
 # ====================
 def show_feature_errors_(ref: str,
-                        hyp: str,
-                        features: list,
-                        feature_to_check: str,
-                        chars_either_side: int):
+                         hyp: str,
+                         features: list,
+                         feature_to_check: str,
+                         chars_either_side: int):
 
+    errors = []
     print('Reference:')
-    chars_, features_ = split_chars_and_features(ref, features)
-    print(chars_[:100])
-    print(features_[:100])
+    chars_ref, features_ref = split_chars_and_features(ref, features)
     print('Hypothesis:')
-    chars_, features_ = split_chars_and_features(hyp, features)
-    print(chars_[:100])
-    print(features_[:100])
+    chars_hyp, features_hyp = split_chars_and_features(hyp, features)
+    for i in range(len(chars_ref)):
+        if feature_to_check in features_ref and feature_to_check not in features_hyp:
+            error = {}
+            error['type'] = 'fp'
+            error['ref'] = [join(c, fs) for c, fs in zip(
+                                chars_ref[-chars_either_side: chars_either_side],
+                                features_ref[-chars_either_side: chars_either_side]
+                            )]
+            errors.append(error)
+        if feature_to_check in features_hyp and feature_to_check not in features_ref:
+            error = {}
+            error['type'] = 'fn'
+            error['ref'] = [join(c, fs) for c, fs in zip(
+                                chars_ref[-chars_either_side: chars_either_side],
+                                features_ref[-chars_either_side: chars_either_side]
+                            )]
+            errors.append(error)
+    errors_df = pd.DataFrame(errors)
+    display_or_print(errors_df)
+
+
+# ====================
+def join(char, features) -> str:
+
+    return char + ''.join([f for f in features if f != 'CAPITALISATION'])
+
+    
 
 
 # ====================

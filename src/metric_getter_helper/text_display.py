@@ -74,16 +74,16 @@ def show_feature_errors_(ref: str,
             error = {}
             error['type'] = 'fp'
             error['ref'] = [join(c, fs) for c, fs in zip(
-                                chars_ref[-chars_either_side: chars_either_side],
-                                features_ref[-chars_either_side: chars_either_side]
+                                chars_ref[i-chars_either_side: i+chars_either_side],
+                                features_ref[i-chars_either_side: i+chars_either_side]
                             )]
             errors.append(error)
         elif feature_to_check in features_hyp[i] and feature_to_check not in features_ref[i]:
             error = {}
             error['type'] = 'fn'
             error['ref'] = [join(c, fs) for c, fs in zip(
-                                chars_hyp[-chars_either_side: chars_either_side],
-                                features_hyp[-chars_either_side: chars_either_side]
+                                chars_hyp[i-chars_either_side: i+chars_either_side],
+                                features_hyp[i-chars_either_side: i+chars_either_side]
                             )]
             errors.append(error)
     errors_df = pd.DataFrame(errors)
@@ -91,11 +91,13 @@ def show_feature_errors_(ref: str,
 
 
 # ====================
+
+
+
+# ====================
 def join(char, features) -> str:
 
     return char + ''.join([f for f in features if f != 'CAPITALISATION'])
-
-    
 
 
 # ====================

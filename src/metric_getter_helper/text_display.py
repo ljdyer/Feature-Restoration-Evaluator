@@ -73,29 +73,39 @@ def show_feature_errors_(ref: str,
         if feature_to_check in features_ref[i] and feature_to_check not in features_hyp[i]:
             error = {}
             error['type'] = 'fp'
-            error['ref'] = [join(c, fs) for c, fs in zip(
+            error['ref'] = join_all(
                                 chars_ref[i-chars_either_side: i+chars_either_side],
                                 features_ref[i-chars_either_side: i+chars_either_side]
-                            )]
+                            )
+            error['hyp'] = join_all(
+                                chars_hyp[i-chars_either_side: i+chars_either_side],
+                                features_hyp[i-chars_either_side: i+chars_either_side]
+                            )
             errors.append(error)
         elif feature_to_check in features_hyp[i] and feature_to_check not in features_ref[i]:
             error = {}
             error['type'] = 'fn'
-            error['ref'] = [join(c, fs) for c, fs in zip(
+            error['ref'] = join_all(
+                                chars_ref[i-chars_either_side: i+chars_either_side],
+                                features_ref[i-chars_either_side: i+chars_either_side]
+                            )
+            error['hyp'] = join_all(
                                 chars_hyp[i-chars_either_side: i+chars_either_side],
                                 features_hyp[i-chars_either_side: i+chars_either_side]
-                            )]
+                            )
             errors.append(error)
     errors_df = pd.DataFrame(errors)
     display_or_print(errors_df)
 
 
 # ====================
+def join_all(chars, features) -> str:
 
+    return ''.join(join_(c, fs) for c, fs in zip(chars, features))
 
 
 # ====================
-def join(char, features) -> str:
+def join_(char, features) -> str:
 
     return char + ''.join([f for f in features if f != 'CAPITALISATION'])
 

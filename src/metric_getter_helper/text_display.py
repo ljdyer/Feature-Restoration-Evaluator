@@ -58,10 +58,10 @@ def show_text_display_(ref: str,
 
 # ====================
 def show_feature_errors_(ref: str,
-                       hyp: str,
-                       features: list,
-                       feature_to_check: str,
-                       chars_either_side: int):
+                        hyp: str,
+                        features: list,
+                        feature_to_check: str,
+                        chars_either_side: int):
 
     print('Reference:')
     chars_, features_ = split_chars_and_features(ref, features)
@@ -76,7 +76,7 @@ def show_feature_errors_(ref: str,
 # ====================
 def split_chars_and_features(doc: str, features: list):
 
-    chars = list(ref)
+    chars = list(doc)
     chars_only = []
     features_only = []
     while chars:

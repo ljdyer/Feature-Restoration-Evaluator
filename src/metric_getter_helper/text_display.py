@@ -69,10 +69,6 @@ def show_feature_errors_(ref: str,
     errors = []
     chars_ref, features_ref = split_chars_and_features(ref, features)
     chars_hyp, features_hyp = split_chars_and_features(hyp, features)
-    print(len(chars_ref))
-    print(len(features_ref))
-    print(len(chars_hyp))
-    print(len(features_hyp))
     for i in range(len(chars_ref)):
         if feature_to_check in features_ref[i] and feature_to_check not in features_hyp[i]:
             error = {}
@@ -82,7 +78,7 @@ def show_feature_errors_(ref: str,
                                 features_ref[-chars_either_side: chars_either_side]
                             )]
             errors.append(error)
-        elif feature_to_check[i] in features_hyp and feature_to_check not in features_ref[i]:
+        elif feature_to_check in features_hyp[i] and feature_to_check not in features_ref[i]:
             error = {}
             error['type'] = 'fn'
             error['ref'] = [join(c, fs) for c, fs in zip(

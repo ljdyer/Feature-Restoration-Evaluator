@@ -14,7 +14,8 @@ from metric_getter_helper.misc import (Int_or_Str, Str_or_List,
                                        Str_or_List_or_Series, get_tqdm,
                                        load_pickle, save_pickle,
                                        str_or_list_or_series_to_list)
-from metric_getter_helper.text_display import show_text_display_
+from metric_getter_helper.text_display import (show_feature_errors_,
+                                               show_text_display_)
 from metric_getter_helper.word_error_rate import (show_wer_info_table, wer,
                                                   wer_info)
 
@@ -299,11 +300,11 @@ class FeatureRestorerMetricGetter:
                             doc_idx: int,
                             features: list,
                             feature_to_check: str,
-                            chars_either_side: int)
+                            chars_either_side: int):
 
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()
-        show_text_display(
+        show_feature_errors_(
             ref, hyp, features,
             feature_to_check, chars_either_side
         )

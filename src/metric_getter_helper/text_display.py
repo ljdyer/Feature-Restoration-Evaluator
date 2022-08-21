@@ -57,7 +57,7 @@ def show_text_display_(ref: str,
 
 
 # ====================
-def get_feature_errors_(ref: str,
+def show_feature_errors_(ref: str,
                        hyp: str,
                        features: list,
                        feature_to_check: str,

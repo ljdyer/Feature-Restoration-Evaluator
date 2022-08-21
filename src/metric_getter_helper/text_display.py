@@ -76,9 +76,9 @@ def show_feature_errors_(ref: str,
         features_present, chars = get_features_present(
             next_char, chars, features)
         chars_only['ref'].append(next_char['ref'])
-        features_only['ref'].append(next_char['ref'])
+        features_only['ref'].append(features_present['ref'])
         chars_only['hyp'].append(next_char['hyp'])
-        features_only['hyp'].append(next_char['hyp'])
+        features_only['hyp'].append(features_present['hyp'])
     print(chars_only['ref'][:100])
     print(features_only['ref'][:100])
     print(chars_only['hyp'][:100])

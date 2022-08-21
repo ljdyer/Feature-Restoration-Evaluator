@@ -305,6 +305,8 @@ class FeatureRestorerMetricGetter:
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()
         show_feature_errors_(
-            ref, hyp, features,
-            feature_to_check, chars_either_side
+            ref, hyp,
+            features=self.features,
+            feature_to_check=feature_to_check,
+            chars_either_side=10
         )

@@ -67,12 +67,10 @@ def show_feature_errors_(ref: str,
                          chars_either_side: int):
 
     errors = []
-    print('Reference:')
     chars_ref, features_ref = split_chars_and_features(ref, features)
-    print('Hypothesis:')
     chars_hyp, features_hyp = split_chars_and_features(hyp, features)
     for i in range(len(chars_ref)):
-        if feature_to_check in features_ref and feature_to_check not in features_hyp:
+        if feature_to_check in features_ref[i] and feature_to_check not in features_hyp[i]:
             error = {}
             error['type'] = 'fp'
             error['ref'] = [join(c, fs) for c, fs in zip(
@@ -80,12 +78,12 @@ def show_feature_errors_(ref: str,
                                 features_ref[-chars_either_side: chars_either_side]
                             )]
             errors.append(error)
-        if feature_to_check in features_hyp and feature_to_check not in features_ref:
+        elif feature_to_check[i] in features_hyp and feature_to_check not in features_ref[i]:
             error = {}
             error['type'] = 'fn'
             error['ref'] = [join(c, fs) for c, fs in zip(
-                                chars_ref[-chars_either_side: chars_either_side],
-                                features_ref[-chars_either_side: chars_either_side]
+                                chars_hyp[-chars_either_side: chars_either_side],
+                                features_hyp[-chars_either_side: chars_either_side]
                             )]
             errors.append(error)
     errors_df = pd.DataFrame(errors)

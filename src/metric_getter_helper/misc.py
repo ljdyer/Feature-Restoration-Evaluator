@@ -48,6 +48,7 @@ def check_same_char(next_char: dict, chars: dict,
             hyp_str=(next_char['hyp'] + ''.join(chars['hyp'][:10]))
         )
         print(next_char['ref'])
+        print(next_char['hyp'])
         print(error_msg)
         return False
 

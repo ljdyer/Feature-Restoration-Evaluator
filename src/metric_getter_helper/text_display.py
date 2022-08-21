@@ -3,7 +3,7 @@ from metric_getter_helper.messages import ERROR_CHARS_PER_ROW_AND_NUM_ROWS
 from typing import Tuple
 import pandas as pd
 
-from src.metric_getter_helper.misc import display_or_print
+from metric_getter_helper.misc import display_or_print
 
 HTML_STYLE = """<style>
 .fp{

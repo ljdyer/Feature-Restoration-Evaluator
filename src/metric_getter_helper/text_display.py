@@ -1,4 +1,4 @@
-from metric_getter_helper.misc import check_same_char, display_or_print_html
+from metric_getter_helper.misc import check_same_char, display_or_print_html, CAPS
 from metric_getter_helper.messages import ERROR_CHARS_PER_ROW_AND_NUM_ROWS
 from typing import Tuple
 import pandas as pd
@@ -107,7 +107,7 @@ def join_all(chars, features) -> str:
 # ====================
 def join_(char, features) -> str:
 
-    return char + ''.join([f for f in features if f != 'CAPITALISATION'])
+    return char + ''.join([f for f in features if f != CAPS])
 
 
 # ====================
@@ -119,8 +119,8 @@ def split_chars_and_features(doc: str, features: list):
     while chars:
         next_char = chars.pop(0)
         features_present = []
-        if 'CAPITALISATION' in features and next_char.isupper():
-            features_present.append('CAPITALISATION')
+        if CAPS in features and next_char.isupper():
+            features_present.append(CAPS)
         while len(chars) > 0 and chars[0] in features:
             features_present.append(chars.pop(0))
         chars_only.append(next_char)
@@ -146,7 +146,7 @@ def label_fps_and_fns(chars: dict,
         output_chars.extend(get_next_entries(
             next_char, features_present, features, feature_chars,
             ignored_chars=ignored_chars,
-            ignore_caps='CAPITALISATION' in ignore,
+            ignore_caps=CAPS in ignore,
             for_latex=for_latex
         ))
     return output_chars
@@ -168,8 +168,8 @@ def get_features_present(next_char: dict, chars: dict, features: list) -> dict:
 
     features_present = {'ref': [], 'hyp': []}
     for ref_or_hyp in chars.keys():
-        if 'CAPITALISATION' in features and next_char[ref_or_hyp].isupper():
-            features_present[ref_or_hyp].append('CAPITALISATION')
+        if CAPS in features and next_char[ref_or_hyp].isupper():
+            features_present[ref_or_hyp].append(CAPS)
         while len(chars[ref_or_hyp]) > 0 and chars[ref_or_hyp][0] in features:
             features_present[ref_or_hyp].append(chars[ref_or_hyp].pop(0))
     return features_present, chars
@@ -188,8 +188,8 @@ def get_next_entries(next_char: dict,
     class_label = cmd if for_latex else span_class
     char_box = mbox if for_latex else lambda x: x
     next_entries = []
-    if 'CAPITALISATION' in features:
-        tfpn_ = tfpn('CAPITALISATION', features_present)
+    if CAPS in features:
+        tfpn_ = tfpn(CAPS, features_present)
         if tfpn_ not in ['fn', 'fp'] or ignore_caps is True:
             next_entries.append(next_char['hyp'])
         else:

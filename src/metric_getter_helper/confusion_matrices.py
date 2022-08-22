@@ -2,22 +2,26 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-from metric_getter_helper.misc import check_same_char, display_or_print, list_gclust
+from typing import List, Tuple
+
+from metric_getter_helper.misc import check_same_char, display_or_print, list_gclust, CAPS
 
 FEATURE_DISPLAY_NAMES = {
-    'CAPITALISATION': "Capitalisation",
+    'CAPS': "Capitalisation",
     ' ': "Spaces (' ')",
     ',': "Commas (',')",
     '.': "Periods ('.')",
     'all': 'All features'
 }
 FEATURE_DISPLAY_NAMES_LATEX = {
-    'CAPITALISATION': "CAPS",
     ' ': r"Spaces ('{\ }')",
     ',': "Commas (',')",
     '.': "Periods ('.')",
     'all': 'All'
 }
+
+ERROR_FIRST_CHAR_FEATURE_CHAR = """
+The first character in the document is a feature character!"""
 
 
 # ====================
@@ -31,9 +35,9 @@ def cms(ref: str, hyp: str, features: list, doc_idx: int):
             return None
         for string in chars.keys():
             features_present[string].append([])
-            if ('CAPITALISATION' in features
+            if (CAPS in features
                and next_char[string].isupper()):
-                features_present[string][-1].append('CAPITALISATION')
+                features_present[string][-1].append(CAPS)
             while (len(chars[string]) > 0
                     and chars[string][0] in features):
                 features_present[string][-1].append(chars[string].pop(0))
@@ -50,6 +54,27 @@ def cms(ref: str, hyp: str, features: list, doc_idx: int):
     confusion_matrices['all'] = confusion_matrix_all
     return confusion_matrices
 
+"""
+# ====================
+def get_chars_and_feature_lists(doc: str,
+                                features: List[str]) -> Tuple[List[str]]:
+
+    chars = list_gclust(doc)
+    non_feature_chars = []
+    feature_lists = []
+    # Check whether first char is a feature char
+    if chars[0] in features:
+        raise ValueError(ERROR_FIRST_CHAR_FEATURE_CHAR)
+    while chars:
+        next_char = chars.pop(0)
+        non_feature_chars.append(chars.pop(0))
+        feature_lists.append([])
+        if next_char.isupper():
+            non_feature_chars[-1].append(CAPS)
+        while (len(chars) > 0 and chars[0] in features):
+            features[-1].append(chars.pop(0))
+    return non_feature_chars, feature_lists
+"""
 
 # ========================
 def show_cm_tables(cms: dict):

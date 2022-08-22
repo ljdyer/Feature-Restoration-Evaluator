@@ -5,6 +5,7 @@ Basic tests for FeatureRestorerMetricGetter class
 """
 
 from feature_restorer_metric_getter import FeatureRestorerMetricGetter
+from metric_getter_helper.misc import CAPS
 
 # ====================
 if __name__ == "__main__":
@@ -40,7 +41,7 @@ if __name__ == "__main__":
     assert sent_0_periods['F-score'] == 1
 
     """TEST 3"""
-    sent_1_capitalisation = prc.get_prfs(1)['CAPITALISATION']
+    sent_1_capitalisation = prc.get_prfs(1)[CAPS]
     # 1 true positive, 2 false positives, 0 false negatives
     # Precision is tp/(tp+fp) = 1/(2+1) = 1/3
     # Recall is tp/(tp+fn) = 1/(1+0) = 1

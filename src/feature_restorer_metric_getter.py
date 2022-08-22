@@ -13,7 +13,7 @@ from metric_getter_helper.messages import (ERROR_NON_EQUAL_LENGTH,
 from metric_getter_helper.misc import (Int_or_Str, Str_or_List,
                                        Str_or_List_or_Series, get_tqdm,
                                        load_pickle, save_pickle,
-                                       str_or_list_or_series_to_list)
+                                       str_or_list_or_series_to_list, CAPS)
 from metric_getter_helper.text_display import (show_feature_errors_,
                                                show_text_display_)
 from metric_getter_helper.word_error_rate import (show_wer_info_table, wer,
@@ -104,12 +104,12 @@ class FeatureRestorerMetricGetter:
     def set_features(self, capitalisation: bool):
         """Set self.features
 
-        If capitalisation=True, add 'CAPITALISATION' to the list of
+        If capitalisation=True, add CAPS to the list of
         feature_chars."""
 
         if capitalisation:
             self.features = \
-                ['CAPITALISATION'] + self.feature_chars.copy()
+                [CAPS] + self.feature_chars.copy()
         else:
             self.features = self.feature_chars.copy()
 

@@ -10,6 +10,8 @@ try:
 except:
     pass
 
+from uniseg.graphemecluster import grapheme_clusters
+
 from metric_getter_helper.messages import (ERROR_REF_OR_HYP_TYPE,
                                            WARNING_DIFFERENT_CHARS)
 
@@ -17,7 +19,8 @@ Int_or_Str = Union[int, str]
 Str_or_List = Union[str, list]
 Str_or_List_or_Series = Union[str, list, pd.Series]
 
-from uniseg.graphemecluster import grapheme_clusters
+
+CAPS = 'CAPS'
 
 
 # ====================

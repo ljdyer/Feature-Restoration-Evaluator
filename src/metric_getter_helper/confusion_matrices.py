@@ -1,10 +1,11 @@
+from typing import List, Tuple
+
 import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-from typing import List, Tuple
-
-from metric_getter_helper.misc import check_same_char, display_or_print, list_gclust, CAPS
+from metric_getter_helper.misc import (CAPS, display_or_print,
+                                       list_gclust)
 
 FEATURE_DISPLAY_NAMES = {
     'CAPS': "Capitalisation",
@@ -27,24 +28,13 @@ The first character in the document is a feature character!"""
 # ====================
 def cms(ref: str, hyp: str, features: list, doc_idx: int):
 
-    chars = {'ref': list_gclust(ref.strip()), 'hyp': list_gclust(hyp.strip())}
-    features_present = {'ref': [], 'hyp': []}
-    while chars['ref'] and chars['hyp']:
-        next_char = {'ref': chars['ref'].pop(0), 'hyp': chars['hyp'].pop(0)}
-        if check_same_char(next_char, chars, doc_idx) is not True:
-            return None
-        for string in chars.keys():
-            features_present[string].append([])
-            if (CAPS in features
-               and next_char[string].isupper()):
-                features_present[string][-1].append(CAPS)
-            while (len(chars[string]) > 0
-                    and chars[string][0] in features):
-                features_present[string][-1].append(chars[string].pop(0))
+    chars_ref, feature_lists_ref = get_chars_and_feature_lists(ref)
+    chars_hyp, feature_lists_hyp = get_chars_and_feature_lists(hyp)
+    assert chars_ref == chars_hyp
     confusion_matrices = {
         f: confusion_matrix(
-            [f in x for x in features_present['ref']],
-            [f in x for x in features_present['hyp']],
+            [f in x for x in feature_lists_ref],
+            [f in x for x in feature_lists_hyp],
             labels=[True, False]
         )
         for f in features
@@ -54,12 +44,12 @@ def cms(ref: str, hyp: str, features: list, doc_idx: int):
     confusion_matrices['all'] = confusion_matrix_all
     return confusion_matrices
 
-"""
+
 # ====================
 def get_chars_and_feature_lists(doc: str,
                                 features: List[str]) -> Tuple[List[str]]:
 
-    chars = list_gclust(doc)
+    chars = list_gclust(doc.strip())
     non_feature_chars = []
     feature_lists = []
     # Check whether first char is a feature char
@@ -73,8 +63,8 @@ def get_chars_and_feature_lists(doc: str,
             non_feature_chars[-1].append(CAPS)
         while (len(chars) > 0 and chars[0] in features):
             features[-1].append(chars.pop(0))
-    return non_feature_chars, feature_lists
-"""
+    return list(map(lambda x: x.lower(), non_feature_chars)), feature_lists
+
 
 # ========================
 def show_cm_tables(cms: dict):

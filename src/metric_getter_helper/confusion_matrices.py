@@ -57,10 +57,10 @@ def get_chars_and_feature_lists(doc: str,
         raise ValueError(ERROR_FIRST_CHAR_FEATURE_CHAR)
     while chars:
         next_char = chars.pop(0)
-        non_feature_chars.append(chars.pop(0))
+        non_feature_chars.append(next_char)
         feature_lists.append([])
         if next_char.isupper():
-            non_feature_chars[-1].append(CAPS)
+            feature_lists[-1].append(CAPS)
         while (len(chars) > 0 and chars[0] in features):
             features[-1].append(chars.pop(0))
     return list(map(lambda x: x.lower(), non_feature_chars)), feature_lists

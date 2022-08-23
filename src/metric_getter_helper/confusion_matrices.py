@@ -28,8 +28,8 @@ The first character in the document is a feature character!"""
 # ====================
 def cms(ref: str, hyp: str, features: list, doc_idx: int):
 
-    chars_ref, feature_lists_ref = get_chars_and_feature_lists(ref)
-    chars_hyp, feature_lists_hyp = get_chars_and_feature_lists(hyp)
+    chars_ref, feature_lists_ref = get_chars_and_feature_lists(ref, features)
+    chars_hyp, feature_lists_hyp = get_chars_and_feature_lists(hyp, features)
     assert chars_ref == chars_hyp
     confusion_matrices = {
         f: confusion_matrix(

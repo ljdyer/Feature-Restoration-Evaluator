@@ -103,7 +103,7 @@ def show_prfs(cms, for_latex: bool = False):
 
     prfs = prfs_all_features(cms, display_names=True, for_latex=for_latex)
     if for_latex is True:
-        template_latex.render(prfs=prfs)
+        print(template_latex.render(prfs=prfs))
     else:
         display_or_print(pd.DataFrame(prfs).transpose())
 

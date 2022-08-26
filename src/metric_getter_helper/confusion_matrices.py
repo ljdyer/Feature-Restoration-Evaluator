@@ -14,12 +14,12 @@ template_latex = environment.from_string("""
 \hline
 & \head\{Precision\} & \head\{Recall\} & \head\{F-score\}
 \hline
-{% for feature, scores in prfs.items() %}
-{{feature}}
-{% endfor %}
+{% for feature, scores in prfs.items() -%}
+{{feature}} & {{scores['Precision']:.2f}} & {{scores['Recall']:.2f}} & {{scores['F-score']:.2f}}
+{%- endfor %}
 """)
 
-#  & {{scores['Precision']:.2f}} & {{scores['Recall']:.2f}} & {{scores['F-score']:.2f}}
+ 
 
 FEATURE_DISPLAY_NAMES = {
     'CAPS': "Capitalisation",

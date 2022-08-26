@@ -14,7 +14,7 @@ template_latex = environment.from_string("""
 \hline
 & \head\{Precision\} & \head\{Recall\} & \head\{F-score\}
 \hline
-{% for feature, scores in prfs %}
+{% for feature, scores in prfs.items %}
 {{feature}}
 {% endfor %}
 """)

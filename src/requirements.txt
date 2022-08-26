@@ -3,3 +3,4 @@ sklearn
 tqdm
 uniseg
 jiwer
+Jinja2

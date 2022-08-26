@@ -7,6 +7,18 @@ from sklearn.metrics import confusion_matrix
 from metric_getter_helper.misc import (CAPS, display_or_print,
                                        list_gclust)
 
+import jinja2
+
+environment = jinja2.Environment()
+template_latex = environment.from_string("""
+\hline
+& \head\{Precision\} & \head\{Recall\} & \head\{F-score\}
+\hline
+{% for feature, scores in prfs %}
+{{feature}} & {{scores['Precision']:.2f}} & {{scores['Recall']:.2f}} & {{scores['F-score']:.2f}}
+{% endfor %}
+""")
+
 FEATURE_DISPLAY_NAMES = {
     'CAPS': "Capitalisation",
     ' ': "Spaces (' ')",
@@ -89,7 +101,7 @@ def show_prfs(cms, for_latex: bool = False):
 
     prfs = prfs_all_features(cms, display_names=True, for_latex=for_latex)
     if for_latex is True:
-        show_prfs_latex(prfs)
+        template_latex.render(prfs=prfs)
     else:
         display_or_print(pd.DataFrame(prfs).transpose())
 

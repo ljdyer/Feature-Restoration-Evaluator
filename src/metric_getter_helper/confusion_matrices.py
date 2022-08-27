@@ -10,10 +10,10 @@ from metric_getter_helper.misc import (CAPS, display_or_print,
 import jinja2
 
 environment = jinja2.Environment()
-template_latex = environment.from_string(r"""
-\hline
-& \head\{Precision\} & \head\{Recall\} & \head\{F-score\}
-\hline
+template_latex = environment.from_string("""
+\\hline
+& \\head{Precision} & \\head{Recall} & \\head{F-score}
+\\hline
 {% for feature, scores in prfs.items() -%}
 {{feature}} & {{ "%.2f"|format(scores['Precision']) }} & \
 {{ "%.2f"|format(scores['Recall']) }} & \

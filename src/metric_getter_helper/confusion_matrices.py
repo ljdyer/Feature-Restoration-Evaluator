@@ -10,16 +10,16 @@ from metric_getter_helper.misc import (CAPS, display_or_print,
 import jinja2
 
 environment = jinja2.Environment()
-template_latex = environment.from_string("""
+template_latex = environment.from_string(r"""
 \hline
 & \head\{Precision\} & \head\{Recall\} & \head\{F-score\}
 \hline
 {% for feature, scores in prfs.items() -%}
-{{feature}} & {{ "%.2f"|format(scores['Precision']) }} & {{ "%.2f"|format(scores['Recall']) }} & {{ "%.2f"|format(scores['F-score']) }}
+{{feature}} & {{ "%.2f"|format(scores['Precision']) }} & \
+{{ "%.2f"|format(scores['Recall']) }} & \
+{{ "%.2f"|format(scores['F-score']) }}
 {% endfor %}
 """)
-
-# & {{scores.Recall.:.2f}} & {{scores['F-score']:.2f}}
 
 FEATURE_DISPLAY_NAMES = {
     'CAPS': "Capitalisation",
@@ -44,7 +44,13 @@ def cms(ref: str, hyp: str, features: list, doc_idx: int):
 
     chars_ref, feature_lists_ref = get_chars_and_feature_lists(ref, features)
     chars_hyp, feature_lists_hyp = get_chars_and_feature_lists(hyp, features)
-    assert chars_ref == chars_hyp
+    if chars_ref != chars_hyp:
+        print(
+            'WARNING: The below characters appear in either the reference or',
+            'hypothesis string but not in both:',
+            f"{set(chars_ref).symmetric_difference(set(chars_hyp))}.",
+            'Returning None.')
+        return None
     confusion_matrices = {
         f: confusion_matrix(
             [f in x for x in feature_lists_ref],
@@ -106,22 +112,6 @@ def show_prfs(cms, for_latex: bool = False):
         print(template_latex.render(prfs=prfs))
     else:
         display_or_print(pd.DataFrame(prfs).transpose())
-
-
-# ====================
-def show_prfs_latex(prfs: dict):
-
-    output_lines = []
-    output_lines.append(r"\hline")
-    output_lines.append(r"& \head{Precision} & \head{Recall} & " +
-                        r"\head{F-score}\\")
-    output_lines.append(r"\hline")
-    for feature, scores in prfs.items():
-        new_line = (rf"{feature} & {scores['Precision']:.2f} & " +
-                    rf"{scores['Recall']:.2f} & " +
-                    rf"{scores['F-score']:.2f}\\")
-        output_lines.append(new_line)
-    print('\n'.join(output_lines))
 
 
 # ====================

@@ -11,9 +11,9 @@ import jinja2
 
 environment = jinja2.Environment()
 template_latex = environment.from_string("""
-{% raw %}\\hline
-& \\head{Precision} & \\head{Recall} & \\head{F-score}
-\\hline{% endraw %}
+{% raw %}\hline
+& \head{Precision} & \head{Recall} & \head{F-score}
+\hline{% endraw %}
 {% for feature, scores in prfs.items() -%}
 {{feature}} & {{ "%.2f"|format(scores['Precision']) }} & \
 {{ "%.2f"|format(scores['Recall']) }} & \

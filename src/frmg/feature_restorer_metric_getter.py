@@ -4,20 +4,16 @@ feature_restorer_metric_getter.py
 Main module for FeatureRestorerMetricGetter class
 """
 
-from metric_getter_helper.confusion_matrices import (cms, prfs_all_features,
-                                                     show_cm_tables, show_prfs)
-from metric_getter_helper.messages import (ERROR_NON_EQUAL_LENGTH,
-                                           MESSAGE_CALCULATING_ALL_WERS,
-                                           MESSAGE_GETTING_ALL_CMS,
-                                           MESSAGE_INIT_COMPLETE)
-from metric_getter_helper.misc import (Int_or_Str, Str_or_List,
-                                       Str_or_List_or_Series, get_tqdm,
-                                       load_pickle, save_pickle,
-                                       str_or_list_or_series_to_list, CAPS)
-from metric_getter_helper.text_display import (show_feature_errors_,
-                                               show_text_display_)
-from metric_getter_helper.word_error_rate import (show_wer_info_table, wer,
-                                                  wer_info)
+from helper.confusion_matrices import (cms, prfs_all_features, show_cm_tables,
+                                       show_prfs)
+from helper.messages import (ERROR_NON_EQUAL_LENGTH,
+                             MESSAGE_CALCULATING_ALL_WERS,
+                             MESSAGE_GETTING_ALL_CMS, MESSAGE_INIT_COMPLETE)
+from helper.misc import (CAPS, Int_or_Str, Str_or_List, Str_or_List_or_Series,
+                         get_tqdm, load_pickle, save_pickle,
+                         str_or_list_or_series_to_list)
+from helper.text_display import show_feature_errors_, show_text_display_
+from helper.word_error_rate import show_wer_info_table, wer, wer_info
 
 tqdm_ = get_tqdm()
 
@@ -53,7 +49,7 @@ class FeatureRestorerMetricGetter:
         feature_chars:              A string or list of characters containing
             Str_or_List             other characters to treat as features
                                     (e.g. '., ' for periods, commas, and
-                                    spaces.) 
+                                    spaces.)
 
         Optional keyword arguments:
         ---------------------------

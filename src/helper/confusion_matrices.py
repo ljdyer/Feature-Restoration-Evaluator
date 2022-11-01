@@ -1,13 +1,11 @@
 from typing import List, Tuple
 
+import jinja2
 import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-from metric_getter_helper.misc import (CAPS, display_or_print,
-                                       list_gclust)
-
-import jinja2
+from helper.misc import CAPS, display_or_print, list_gclust
 
 environment = jinja2.Environment()
 template_latex = environment.from_string("""
@@ -19,7 +17,7 @@ template_latex = environment.from_string("""
 {{ "%.2f"|format(scores['Recall']) }} & \
 {{ "%.2f"|format(scores['F-score']) }}
 {% endfor %}
-""")
+""")  # noqa: W605
 
 FEATURE_DISPLAY_NAMES = {
     'CAPS': "Capitalisation",

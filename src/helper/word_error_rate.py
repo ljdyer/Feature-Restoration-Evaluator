@@ -1,7 +1,7 @@
 import pandas as pd
 
-from metric_getter_helper.messages import WARNING_NO_JIWER
-from metric_getter_helper.misc import display_or_print
+from messages import WARNING_NO_JIWER
+from misc import display_or_print
 
 try:
     from jiwer.measures import _get_operation_counts, _preprocess
@@ -38,7 +38,7 @@ def get_num_edits(ref: str, hyp: str) -> dict:
 
     # _get_operation_counts returns hits, deletions, substitions,
     # and insertions
-    _, S, D, I = _get_operation_counts(ref_[0], hyp_[0])
+    _, S, D, I = _get_operation_counts(ref_[0], hyp_[0])  # noqa: E741
     edits = sum([S, D, I])
 
     return edits

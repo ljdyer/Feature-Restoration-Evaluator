@@ -1,9 +1,9 @@
-from metric_getter_helper.misc import check_same_char, display_or_print_html, CAPS
-from metric_getter_helper.messages import ERROR_CHARS_PER_ROW_AND_NUM_ROWS
 from typing import Tuple
+
 import pandas as pd
 
-from metric_getter_helper.misc import display_or_print
+from messages import ERROR_CHARS_PER_ROW_AND_NUM_ROWS
+from misc import CAPS, check_same_char, display_or_print, display_or_print_html
 
 HTML_STYLE = """<style>
 .fp{
@@ -70,28 +70,38 @@ def show_feature_errors_(ref: str,
     chars_ref, features_ref = split_chars_and_features(ref, features)
     chars_hyp, features_hyp = split_chars_and_features(hyp, features)
     for i in range(len(chars_ref)):
-        if feature_to_check in features_ref[i] and feature_to_check not in features_hyp[i]:
+        if (feature_to_check in features_ref[i]
+                and feature_to_check not in features_hyp[i]):
             error = {}
             error['type'] = 'fp'
             error['ref'] = join_all(
-                                chars_ref[i-chars_either_side: i+chars_either_side],
-                                features_ref[i-chars_either_side: i+chars_either_side]
+                                chars_ref[
+                                    i-chars_either_side: i+chars_either_side],
+                                features_ref[
+                                    i-chars_either_side: i+chars_either_side]
                             )
             error['hyp'] = join_all(
-                                chars_hyp[i-chars_either_side: i+chars_either_side],
-                                features_hyp[i-chars_either_side: i+chars_either_side]
+                                chars_hyp[
+                                    i-chars_either_side: i+chars_either_side],
+                                features_hyp[
+                                    i-chars_either_side: i+chars_either_side]
                             )
             errors.append(error)
-        elif feature_to_check in features_hyp[i] and feature_to_check not in features_ref[i]:
+        elif (feature_to_check in features_hyp[i]
+                and feature_to_check not in features_ref[i]):
             error = {}
             error['type'] = 'fn'
             error['ref'] = join_all(
-                                chars_ref[i-chars_either_side: i+chars_either_side],
-                                features_ref[i-chars_either_side: i+chars_either_side]
+                                chars_ref[
+                                    i-chars_either_side: i+chars_either_side],
+                                features_ref[
+                                    i-chars_either_side: i+chars_either_side]
                             )
             error['hyp'] = join_all(
-                                chars_hyp[i-chars_either_side: i+chars_either_side],
-                                features_hyp[i-chars_either_side: i+chars_either_side]
+                                chars_hyp[
+                                    i-chars_either_side: i+chars_either_side],
+                                features_hyp[
+                                    i-chars_either_side: i+chars_either_side]
                             )
             errors.append(error)
     errors_df = pd.DataFrame(errors)

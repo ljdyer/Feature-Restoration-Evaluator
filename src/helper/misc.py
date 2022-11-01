@@ -6,19 +6,17 @@ from tqdm import tqdm as non_notebook_tqdm
 from tqdm.notebook import tqdm as notebook_tqdm
 
 try:
-    from IPython.core.display import HTML
-except:
+    from IPython.core.display import HTML   # type: ignore
+except ModuleNotFoundError:
     pass
 
 from uniseg.graphemecluster import grapheme_clusters
 
-from metric_getter_helper.messages import (ERROR_REF_OR_HYP_TYPE,
-                                           WARNING_DIFFERENT_CHARS)
+from messages import ERROR_REF_OR_HYP_TYPE, WARNING_DIFFERENT_CHARS
 
 Int_or_Str = Union[int, str]
 Str_or_List = Union[str, list]
 Str_or_List_or_Series = Union[str, list, pd.Series]
-
 
 CAPS = 'CAPS'
 
@@ -89,7 +87,7 @@ def is_running_from_ipython():
 
     try:
         # Notebooks have IPython module installed
-        from IPython import get_ipython
+        from IPython import get_ipython     # type: ignore  # noqa: 401
         return True
     except ModuleNotFoundError:
         return False
@@ -101,7 +99,7 @@ def display_or_print(obj: Any):
     script is running from a notebook or not."""
 
     if is_running_from_ipython():
-        display(obj)
+        display(obj)    # type: ignore  # noqa: F821
     else:
         print(obj)
 
@@ -112,7 +110,7 @@ def display_or_print_html(html: str):
     script is running from a notebook or not."""
 
     if is_running_from_ipython():
-        display(HTML(html))
+        display(HTML(html))     # type: ignore  # noqa: F821
     else:
         print(html)
 

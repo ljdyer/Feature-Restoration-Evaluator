@@ -9,8 +9,8 @@ WARNING_DIFFERENT_CHARS = """Different characters found between reference and \
 hypothesis strings in document index: {doc_idx}! \
 (Reference: "{ref_str}"; Hypothesis: "{hyp_str}"). \
 Skipping this document (returning None)."""
-WARNING_NO_JIWER = """Could not import jiwer library. You will not be able to show \
-word error rate info."""
+WARNING_NO_JIWER = """Could not import jiwer library. You will not be able to \
+show word error rate info."""
 
 # Errors
 ERROR_REF_OR_HYP_TYPE = """

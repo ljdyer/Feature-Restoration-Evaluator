@@ -20,7 +20,7 @@ template_latex = environment.from_string("""
 """)  # noqa: W605
 
 FEATURE_DISPLAY_NAMES = {
-    'CAPS': "capitalization",
+    'CAPS': "Capitalization",
     ' ': "Spaces (' ')",
     ',': "Commas (',')",
     '.': "Periods ('.')",

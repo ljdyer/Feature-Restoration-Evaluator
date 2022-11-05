@@ -22,7 +22,7 @@ class FeatureRestorationEvaluator:
     def __init__(self,
                  reference: Str_or_List_or_Series,
                  hypothesis: Str_or_List_or_Series,
-                 capitalisation: bool,
+                 capitalization: bool,
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True,
                  get_wer_info_on_init: bool = True):
@@ -36,8 +36,8 @@ class FeatureRestorationEvaluator:
             Either a single string, or a list or pandas.Series object of
             strings ('documents') to use as the hypothesis corpus.
             (Number of documents must be the same as reference.)
-          capitalisation (bool):
-            Whether or not to treat capitalisation as a feature to be assessed.
+          capitalization (bool):
+            Whether or not to treat capitalization as a feature to be assessed.
           feature_chars (Str_or_List):
             A string or list of characters containing other characters to treat
             as features (e.g. '., ' for periods, commas, and spaces.)
@@ -65,7 +65,7 @@ class FeatureRestorationEvaluator:
                 "Hypothesis and reference lists must have equal length."
             )
         self.feature_chars = list(feature_chars)
-        self.set_features(capitalisation)
+        self.set_features(capitalization)
         self.wer_info = {}
         self.cms = {}
         if get_wer_info_on_init:
@@ -104,15 +104,15 @@ class FeatureRestorationEvaluator:
         save_pickle(data, save_path)
 
     # ====================
-    def set_features(self, capitalisation: bool):
+    def set_features(self, capitalization: bool):
         """Set self.features attribute
 
         Args:
-          capitalisation (bool):
+          capitalization (bool):
             If True, add CAPS to the list of feature_chars.
         """
 
-        if capitalisation:
+        if capitalization:
             self.features = \
                 [CAPS] + self.feature_chars.copy()
         else:

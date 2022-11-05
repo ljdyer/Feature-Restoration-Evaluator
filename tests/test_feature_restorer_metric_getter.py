@@ -12,7 +12,7 @@ hypothesis = [
     'Thisis Senten ce 3'
 ]
 prc = FeatureRestorationEvaluator(
-    reference, hypothesis, capitalisation=True, feature_chars='., ',
+    reference, hypothesis, capitalization=True, feature_chars='., ',
     get_wer_info_on_init=False
 )
 prfs = prc.get_prfs(0)
@@ -47,14 +47,14 @@ def test_correct_prfs_one():
     """First test that correct precision, recall, and F-scores are
     returned"""
 
-    sent_1_capitalisation = prc.get_prfs(1)[CAPS]
+    sent_1_capitalization = prc.get_prfs(1)[CAPS]
     # 1 true positive, 2 false positives, 0 false negatives
     # Precision is tp/(tp+fp) = 1/(2+1) = 1/3
     # Recall is tp/(tp+fn) = 1/(1+0) = 1
     # F-score is (2*p*r)/(p+r) = (2/3)/(4/3) = 1/2
-    assert round(sent_1_capitalisation['Precision'], 2) == 0.33
-    assert sent_1_capitalisation['Recall'] == 1
-    assert sent_1_capitalisation['F-score'] == 0.5
+    assert round(sent_1_capitalization['Precision'], 2) == 0.33
+    assert sent_1_capitalization['Recall'] == 1
+    assert sent_1_capitalization['F-score'] == 0.5
 
 
 # ====================

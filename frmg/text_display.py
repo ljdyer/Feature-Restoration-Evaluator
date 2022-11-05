@@ -2,8 +2,11 @@ from typing import Tuple
 
 import pandas as pd
 
-from messages import ERROR_CHARS_PER_ROW_AND_NUM_ROWS
-from misc import CAPS, check_same_char, display_or_print, display_or_print_html
+from frmg.misc import (CAPS, check_same_char, display_or_print,
+                       display_or_print_html)
+
+ERROR_CHARS_PER_ROW_AND_NUM_ROWS = """
+Either none or both of chars_per_row and num_rows must be specified."""
 
 HTML_STYLE = """<style>
 .fp{

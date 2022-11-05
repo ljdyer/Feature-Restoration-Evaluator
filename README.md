@@ -46,10 +46,9 @@ You can also check out the example notebook [here](FeatureRestorerMetricGetter_E
 
 ### Initializing a class instance
 
-```python
-# ====================
-class FeatureRestorerMetricGetter:
+#### FeatureRestorerMetricGetter.\_\_init\_\_
 
+```python
     # ====================
     def __init__(self,
                  reference: Str_or_List_or_Series,
@@ -58,42 +57,36 @@ class FeatureRestorerMetricGetter:
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True,
                  get_wer_info_on_init: bool = True):
-        """
-        Initialize an instance of the FeatureRestorerMetricGetter class
+        """Initalises FeatureRestorerMetricGetter.
 
-        Required arguments:
-        -------------------
-        reference:                  Either a single string, or a list or
-            Str_or_List_or_Series   pandas.Series object of strings
-                                    ('documents') to use as the reference
-                                    corpus.
-        hypothesis:                 Either a single string, or a list or
-            Str_or_List_or_Series   pandas.Series object of strings
-                                    ('documents') to use as the hypothesis
-                                    corpus.
-                                    (Number of documents must be the same
-                                    as reference.)
-        capitalisation: bool        Whether or not to treat capitalisation
-                                    as a feature to be assessed.
-        feature_chars:              A string or list of characters containing
-            Str_or_List             other characters to treat as features
-                                    (e.g. '., ' for periods, commas, and
-                                    spaces.) 
+        Args:
+          reference (Str_or_List_or_Series):
+            Either a single string, or a list or pandas.Series object of
+            strings ('documents') to use as the reference corpus.
+          hypothesis (Str_or_List_or_Series):
+            Either a single string, or a list or pandas.Series object of
+            strings ('documents') to use as the hypothesis corpus.
+            (Number of documents must be the same as reference.)
+          capitalisation (bool):
+            Whether or not to treat capitalisation as a feature to be assessed.
+          feature_chars (Str_or_List):
+            A string or list of characters containing other characters to treat
+            as features (e.g. '., ' for periods, commas, and spaces.)
+          get_cms_on_init (bool, optional):
+            Whether or not to get confusion matrices for all
+            reference/hypothesis documents on intiialization. Set to False to
+            save time if you do not need precision, recall, and F-score
+            information or only need it for a subset of documents. Defaults to
+            True.
+          get_wer_info_on_init (bool, optional):
+            Whether or not to calculate WERs for all reference/hypothesis
+            documents on initialization. Set to False to save time if you do
+            not need WER information or only need WER information for a subset
+            of documents. Defaults to True.
 
-        Optional keyword arguments:
-        ---------------------------
-        get_cms_on_init: bool       Whether or not to get confusion matrices
-                                    for all reference/hypothesis documents
-                                    on intiialization. Set to False to save
-                                    time if you do not need precision, recall,
-                                    and F-score information or only need it
-                                    for a subset of documents.
-        get_wer_info_on_init:       Whether or not to calculate WERs for all
-            bool                    reference/hypothesis documents on
-                                    initialization. Set to False to save time
-                                    if you do not need WER information or only
-                                    need WER information for a subset of
-                                    documents.
+        Raises:
+          ValueError:
+            Hypothesis and reference lists must have equal length.
         """
 ```
 
@@ -111,23 +104,24 @@ frmg = FeatureRestorerMetricGetter(reference, hypothesis, True, '., ', False, Fa
 
 ### Displaying precision, recall, and F-score metrics
 
+#### FeatureRestorerMetricGetter.show_prfs
+
 ```python
     # ====================
     def show_prfs(self,
                   doc_idx: Int_or_Str = 'all',
                   for_latex: bool = False):
-        """
-        Show precision, recall and F-score for each feature, for
+        """Show precision, recall and F-score for each feature, for
         either a single document all documents.
 
-        Optional keyword arguments:
-        ---------------------------
-        doc_idx: Int_or_Str         Either an integer indicating the index of
-                                    the document to show metrics for, or 'all'
-                                    to show metrics for all documents in the
-                                    corpus (the default behaviour).
-        for_latex: bool             Whether or not to format the output for
-                                    LaTeX.
+        Args:
+          doc_idx (Int_or_Str, optional):
+            Either an integer indicating the index of the document to
+            show metrics for, or 'all' to show metrics for all documents
+            in the corpus. Defaults to 'all'.
+          for_latex (bool, optional):
+            Whether or not to format the output for LaTeX.
+            Defaults to False.
         """
 ```
 
@@ -141,19 +135,19 @@ frmg.show_prfs()
 
 ### Displaying confusion matrices
 
+#### FeatureRestorerMetricGetter.show_confusion_matrices
+
 ```python
     # ====================
     def show_confusion_matrices(self, doc_idx: Int_or_Str = 'all'):
         """Show confusion matrices for each feature, for either a
         single document or all documents.
 
-        Optional keyword arguments:
-        ---------------------------
-        doc_idx: Int_or_Str         Either an integer indicating the index of
-                                    the document to show confusion matrices
-                                    for, or 'all' to show confusion matrices
-                                    for all documents in the corpus (the
-                                    default behaviour).
+        Args:
+          doc_idx (Int_or_Str, optional):
+            Either an integer indicating the index of the document to
+            show confusion matrices for, or 'all' to show confusion
+            matrices for all documents in the corpus. Defaults to 'all'.
         """
 ```
 
@@ -165,6 +159,8 @@ fmrg.show_confusion_matrices()
 
 ### Displaying WER information
 
+#### FeatureRestorerMetricGetter.show_wer_info
+
 ```python
     # ====================
     def show_wer_info(self,
@@ -173,15 +169,13 @@ fmrg.show_confusion_matrices()
         """Show minimum edit distance, reference length, and word error rate
         for either a single document or all documents.
 
-        Optional keyword arguments:
-        ---------------------------
-        doc_idx: Int_or_Str         Either an integer indicating the index of
-                                    the document to show confusion matrices
-                                    for, or 'all' to show confusion matrices
-                                    for all documents in the corpus (the
-                                    default behaviour).
-        for_latex: bool             Whether or not to format the output for
-                                    LaTeX.
+        Args:
+          doc_idx (Int_or_Str, optional):
+            Either an integer indicating the index of the document to show
+            confusion matrices for, or 'all' to show confusion matrices for
+            all documents in the corpus.
+          for_latex (bool, optional):
+            Whether or not to format the output for LaTeX. Defaults to False.
         """
 ```
 

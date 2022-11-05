@@ -1,7 +1,9 @@
 import pandas as pd
 
-from messages import WARNING_NO_JIWER
-from misc import display_or_print
+from frmg.misc import display_or_print
+
+WARNING_NO_JIWER = """Could not import jiwer library. You will not be able to \
+show word error rate info."""
 
 try:
     from jiwer.measures import _get_operation_counts, _preprocess

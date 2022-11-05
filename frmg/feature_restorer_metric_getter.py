@@ -4,18 +4,21 @@ feature_restorer_metric_getter.py
 Main module for FeatureRestorerMetricGetter class
 """
 
-from helper.confusion_matrices import (cms, prfs_all_features, show_cm_tables,
-                                       show_prfs)
-from helper.messages import (ERROR_NON_EQUAL_LENGTH,
-                             MESSAGE_CALCULATING_ALL_WERS,
-                             MESSAGE_GETTING_ALL_CMS, MESSAGE_INIT_COMPLETE)
-from helper.misc import (CAPS, Int_or_Str, Str_or_List, Str_or_List_or_Series,
-                         get_tqdm, load_pickle, save_pickle,
-                         str_or_list_or_series_to_list)
-from helper.text_display import show_feature_errors_, show_text_display_
-from helper.word_error_rate import show_wer_info_table, wer, wer_info
+from frmg.confusion_matrices import (cms, prfs_all_features, show_cm_tables,
+                                     show_prfs)
+from frmg.misc import (CAPS, Int_or_Str, Str_or_List, Str_or_List_or_Series,
+                       get_tqdm, load_pickle, save_pickle,
+                       str_or_list_or_series_to_list)
+from frmg.text_display import show_feature_errors_, show_text_display_
+from frmg.word_error_rate import show_wer_info_table, wer, wer_info
 
 tqdm_ = get_tqdm()
+
+# Messages
+MESSAGE_CALCULATING_ALL_WERS = """Calculating word error rates for all \
+documents..."""
+MESSAGE_GETTING_ALL_CMS = "Getting confusion matrices for all documents..."
+MESSAGE_INIT_COMPLETE = "Initialisation complete."
 
 
 # ====================
@@ -29,48 +32,44 @@ class FeatureRestorerMetricGetter:
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True,
                  get_wer_info_on_init: bool = True):
-        """
-        Initialize an instance of the FeatureRestorerMetricGetter class
+        """Initalises FeatureRestorerMetricGetter.
 
-        Required arguments:
-        -------------------
-        reference:                  Either a single string, or a list or
-            Str_or_List_or_Series   pandas.Series object of strings
-                                    ('documents') to use as the reference
-                                    corpus.
-        hypothesis:                 Either a single string, or a list or
-            Str_or_List_or_Series   pandas.Series object of strings
-                                    ('documents') to use as the hypothesis
-                                    corpus.
-                                    (Number of documents must be the same
-                                    as reference.)
-        capitalisation: bool        Whether or not to treat capitalisation
-                                    as a feature to be assessed.
-        feature_chars:              A string or list of characters containing
-            Str_or_List             other characters to treat as features
-                                    (e.g. '., ' for periods, commas, and
-                                    spaces.)
+        Args:
+          reference (Str_or_List_or_Series):
+            Either a single string, or a list or pandas.Series object of
+            strings ('documents') to use as the reference corpus.
+          hypothesis (Str_or_List_or_Series):
+            Either a single string, or a list or pandas.Series object of
+            strings ('documents') to use as the hypothesis corpus.
+            (Number of documents must be the same as reference.)
+          capitalisation (bool):
+            Whether or not to treat capitalisation as a feature to be assessed.
+          feature_chars (Str_or_List):
+            A string or list of characters containing other characters to treat
+            as features (e.g. '., ' for periods, commas, and spaces.)
+          get_cms_on_init (bool, optional):
+            Whether or not to get confusion matrices for all
+            reference/hypothesis documents on intiialization. Set to False to
+            save time if you do not need precision, recall, and F-score
+            information or only need it for a subset of documents. Defaults to
+            True.
+          get_wer_info_on_init (bool, optional):
+            Whether or not to calculate WERs for all reference/hypothesis
+            documents on initialization. Set to False to save time if you do
+            not need WER information or only need WER information for a subset
+            of documents. Defaults to True.
 
-        Optional keyword arguments:
-        ---------------------------
-        get_cms_on_init: bool       Whether or not to get confusion matrices
-                                    for all reference/hypothesis documents
-                                    on intiialization. Set to False to save
-                                    time if you do not need precision, recall,
-                                    and F-score information or only need it
-                                    for a subset of documents.
-        get_wer_info_on_init:       Whether or not to calculate WERs for all
-            bool                    reference/hypothesis documents on
-                                    initialization. Set to False to save time
-                                    if you do not need WER information or only
-                                    need WER information for a subset of
-                                    documents.
+        Raises:
+          ValueError:
+            Hypothesis and reference lists must have equal length.
         """
 
         self.reference = str_or_list_or_series_to_list(reference)
         self.hypothesis = str_or_list_or_series_to_list(hypothesis)
         if len(self.reference) != len(self.hypothesis):
-            raise ValueError(ERROR_NON_EQUAL_LENGTH)
+            raise ValueError(
+                "Hypothesis and reference lists must have equal length."
+            )
         self.feature_chars = list(feature_chars)
         self.set_features(capitalisation)
         self.wer_info = {}
@@ -84,6 +83,14 @@ class FeatureRestorerMetricGetter:
     # ====================
     @classmethod
     def from_pickle(cls, load_path: str):
+        """Constructor to create a class method from a pickle file.
+
+        Args:
+          load_path (str): The path to the pickle file.
+
+        Returns:
+          FeatureRestorerMetricGetter: The constructed class instance.
+        """
 
         self = cls.__new__(cls)
         data = load_pickle(load_path)
@@ -92,16 +99,24 @@ class FeatureRestorerMetricGetter:
 
     # ====================
     def to_pickle(self, save_path: str):
+        """Save the attributes of the current class instance to a pickle file.
+
+        Args:
+          save_path (str):
+            The path to save to.
+        """
 
         data = self.__dict__
         save_pickle(data, save_path)
 
     # ====================
     def set_features(self, capitalisation: bool):
-        """Set self.features
+        """Set self.features attribute
 
-        If capitalisation=True, add CAPS to the list of
-        feature_chars."""
+        Args:
+          capitalisation (bool):
+            If True, add CAPS to the list of feature_chars.
+        """
 
         if capitalisation:
             self.features = \
@@ -118,15 +133,13 @@ class FeatureRestorerMetricGetter:
         """Show minimum edit distance, reference length, and word error rate
         for either a single document or all documents.
 
-        Optional keyword arguments:
-        ---------------------------
-        doc_idx: Int_or_Str         Either an integer indicating the index of
-                                    the document to show confusion matrices
-                                    for, or 'all' to show confusion matrices
-                                    for all documents in the corpus (the
-                                    default behaviour).
-        for_latex: bool             Whether or not to format the output for
-                                    LaTeX.
+        Args:
+          doc_idx (Int_or_Str, optional):
+            Either an integer indicating the index of the document to show
+            confusion matrices for, or 'all' to show confusion matrices for
+            all documents in the corpus.
+          for_latex (bool, optional):
+            Whether or not to format the output for LaTeX. Defaults to False.
         """
 
         self.get_wer_info(doc_idx)
@@ -147,7 +160,8 @@ class FeatureRestorerMetricGetter:
     # ====================
     def get_wer_info_all(self):
         """Calculate reference length, minimum number of edits, and word
-        error rate for all documents."""
+        error rate for all documents.
+        """
 
         # Get WER info for each document
         print(MESSAGE_CALCULATING_ALL_WERS)
@@ -172,7 +186,8 @@ class FeatureRestorerMetricGetter:
     # ====================
     def get_wer_info_doc(self, doc_idx: int):
         """Calculate reference length, minimum number of edits, and word
-        error rate for a single document"""
+        error rate for a single document
+        """
 
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()
@@ -186,13 +201,11 @@ class FeatureRestorerMetricGetter:
         """Show confusion matrices for each feature, for either a
         single document or all documents.
 
-        Optional keyword arguments:
-        ---------------------------
-        doc_idx: Int_or_Str         Either an integer indicating the index of
-                                    the document to show confusion matrices
-                                    for, or 'all' to show confusion matrices
-                                    for all documents in the corpus (the
-                                    default behaviour).
+        Args:
+          doc_idx (Int_or_Str, optional):
+            Either an integer indicating the index of the document to
+            show confusion matrices for, or 'all' to show confusion
+            matrices for all documents in the corpus. Defaults to 'all'.
         """
 
         self.get_cms(doc_idx)
@@ -209,7 +222,8 @@ class FeatureRestorerMetricGetter:
 
     # ====================
     def get_cms_all(self):
-        """Get confusion matrices for all documents."""
+        """Get confusion matrices for all documents.
+        """
 
         # Get confusion matrices for each document
         print(MESSAGE_GETTING_ALL_CMS)
@@ -226,8 +240,17 @@ class FeatureRestorerMetricGetter:
         self.cms['all'] = all_docs
 
     # ====================
-    def get_cms_doc(self, doc_idx: int):
-        """Get confusion matrices for a single document."""
+    def get_cms_doc(self, doc_idx: int) -> dict:
+        """Get confusion matrices for a single document.
+
+        Args:
+          doc_idx (int): The index of the document to get
+          confusion matrics for.
+
+        Returns:
+          dict:
+            A dictionary containing the confusion matrices.
+        """
 
         cm_doc = cms(
             self.reference[doc_idx].strip(),
@@ -244,18 +267,17 @@ class FeatureRestorerMetricGetter:
     def show_prfs(self,
                   doc_idx: Int_or_Str = 'all',
                   for_latex: bool = False):
-        """
-        Show precision, recall and F-score for each feature, for
+        """Show precision, recall and F-score for each feature, for
         either a single document all documents.
 
-        Optional keyword arguments:
-        ---------------------------
-        doc_idx: Int_or_Str         Either an integer indicating the index of
-                                    the document to show metrics for, or 'all'
-                                    to show metrics for all documents in the
-                                    corpus (the default behaviour).
-        for_latex: bool             Whether or not to format the output for
-                                    LaTeX.
+        Args:
+          doc_idx (Int_or_Str, optional):
+            Either an integer indicating the index of the document to
+            show metrics for, or 'all' to show metrics for all documents
+            in the corpus. Defaults to 'all'.
+          for_latex (bool, optional):
+            Whether or not to format the output for LaTeX.
+            Defaults to False.
         """
 
         self.get_cms(doc_idx)

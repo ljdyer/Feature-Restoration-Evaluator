@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-from helper.misc import CAPS, display_or_print, list_gclust
+from frmg.misc import CAPS, display_or_print, list_gclust
 
 environment = jinja2.Environment()
 template_latex = environment.from_string("""
@@ -35,19 +35,21 @@ FEATURE_DISPLAY_NAMES_LATEX = {
 
 ERROR_FIRST_CHAR_FEATURE_CHAR = """
 The first character in the document is a feature character!"""
+WARNING_DIFFERENT_CHARS = """
+'WARNING: The below characters appear in either the reference or \
+hypothesis string but not in both in doc with index {}: {}. \
+Returning None.
+"""
 
 
 # ====================
-def cms(ref: str, hyp: str, features: list, doc_idx: int):
+def cms(ref: str, hyp: str, features: list, doc_idx: int) -> dict:
 
     chars_ref, feature_lists_ref = get_chars_and_feature_lists(ref, features)
     chars_hyp, feature_lists_hyp = get_chars_and_feature_lists(hyp, features)
     if chars_ref != chars_hyp:
-        print(
-            'WARNING: The below characters appear in either the reference or',
-            'hypothesis string but not in both:',
-            f"{set(chars_ref).symmetric_difference(set(chars_hyp))}.",
-            'Returning None.')
+        different_chars = set(chars_ref).symmetric_difference(set(chars_hyp))
+        print(WARNING_DIFFERENT_CHARS.format(doc_idx, different_chars))
         return None
     confusion_matrices = {
         f: confusion_matrix(

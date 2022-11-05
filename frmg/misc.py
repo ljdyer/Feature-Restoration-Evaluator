@@ -12,13 +12,18 @@ except ModuleNotFoundError:
 
 from uniseg.graphemecluster import grapheme_clusters
 
-from messages import ERROR_REF_OR_HYP_TYPE, WARNING_DIFFERENT_CHARS
-
 Int_or_Str = Union[int, str]
 Str_or_List = Union[str, list]
 Str_or_List_or_Series = Union[str, list, pd.Series]
 
 CAPS = 'CAPS'
+WARNING_DIFFERENT_CHARS = """Different characters found between reference and \
+hypothesis strings in document index: {doc_idx}! \
+(Reference: "{ref_str}"; Hypothesis: "{hyp_str}"). \
+Skipping this document (returning None)."""
+ERROR_REF_OR_HYP_TYPE = """
+reference and hypothesis parameters must have type list, str, \
+or pandas.Series"""
 
 
 # ====================

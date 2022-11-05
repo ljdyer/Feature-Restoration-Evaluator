@@ -1,11 +1,6 @@
-import os
-import sys
-
-sys.path.insert(0, os.path.join(os.getcwd(), 'helper'))
-
 from frmg.feature_restorer_metric_getter \
     import FeatureRestorerMetricGetter     # noqa: E402
-from helper.misc import CAPS    # noqa: E402
+from frmg.misc import CAPS    # noqa: E402
 
 reference = [
     'This is a sentence.',

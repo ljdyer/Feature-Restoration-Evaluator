@@ -1,4 +1,6 @@
 .vscode
+README_tmp.md
+readme_generator.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

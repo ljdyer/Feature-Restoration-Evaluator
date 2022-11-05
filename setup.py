@@ -1,4 +1,4 @@
-from distutils.core import setup
+from distutils.core import setup, find_packages
 
 REQUIREMENTS = [
     'pandas',
@@ -16,6 +16,7 @@ setup(
     author='Laurence Dyer',
     author_email='ljdyer@gmail.com',
     url='https://github.com/ljdyer/Feature-Restorer-Metric-Getter',
-    packages=['frmg'],
+    package_dir={'': 'src'},
+    packages=find_packages(where='src'),
     install_requires=REQUIREMENTS
 )

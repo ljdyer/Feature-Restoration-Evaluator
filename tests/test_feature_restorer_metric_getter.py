@@ -1,6 +1,6 @@
-from frmg.feature_restorer_metric_getter \
+from src.feature_restorer_metric_getter \
     import FeatureRestorerMetricGetter     # noqa: E402
-from frmg.misc import CAPS    # noqa: E402
+from src.misc import CAPS    # noqa: E402
 
 reference = [
     'This is a sentence.',

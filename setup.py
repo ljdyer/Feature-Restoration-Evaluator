@@ -12,7 +12,7 @@ REQUIREMENTS = [
 
 setup(
     name='frmg',
-    version='1.0',
+    version='1.1',
     description='',
     author='Laurence Dyer',
     author_email='ljdyer@gmail.com',

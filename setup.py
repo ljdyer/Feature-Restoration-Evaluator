@@ -11,7 +11,7 @@ REQUIREMENTS = [
 ]
 
 setup(
-    name='Feature Restorer Metric Getter',
+    name='frmg',
     version='1.0',
     description='',
     author='Laurence Dyer',

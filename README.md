@@ -128,7 +128,7 @@ frmg = FeatureRestorerMetricGetter(reference, hypothesis, True, '., ', False, Fa
 #### Example usage:
 
 ```python
-frmg.show_prfs()
+src.show_prfs()
 ```
 
 <img src="readme-img/show_prfs.PNG"></img>

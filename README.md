@@ -1,38 +1,12 @@
-# Feature Restorer Metric Getter
+# Feature Restoration Evaluator
 
 A Python class for calculating precision/recall/F-score and word error rate (WER) metrics for the outputs of feature restoration models against reference strings.
 
 ## Getting started
 
-### 1. Clone the repository
+Install the package
 
-Recommended method for Google Colab notebooks:
 
-```python
-import sys
-# Delete feature-restorer-metric-getter folder to ensures that any changes to the repo are reflected
-!rm -rf 'feature-restorer-metric-getter'
-# Clone feature-restorer-metric-getter repo
-!git clone https://github.com/ljdyer/feature-restorer-metric-getter.git
-# Add feature-restorer-metric-getter to PYTHONPATH
-sys.path.append('feature-restorer-metric-getter/src')
-```
-
-### 2. Install requirements (if required)
-
-If working in Google Colab, the only requirement is `jiwer`, as all other dependencies are installed by default
-
-```python
-!pip install jiwer
-```
-
-`jiwer` is only required for WER-related features, so you can still use Feature Restorer Metric Getter to calculate precision/recall/F-score metrics without it.
-
-If working in a virtual environment, run the following in the src directory:
-
-```python
-pip install -r requirements.txt
-```
 
 ### 3. Import FeatureRestorerMetricGetter class
 

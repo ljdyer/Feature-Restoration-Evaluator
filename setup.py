@@ -11,12 +11,12 @@ REQUIREMENTS = [
 ]
 
 setup(
-    name='frmg',
+    name='fre',
     version='1.1',
     description='',
     author='Laurence Dyer',
     author_email='ljdyer@gmail.com',
-    url='https://github.com/ljdyer/Feature-Restorer-Metric-Getter',
-    packages=['frmg'],
+    url='https://github.com/ljdyer/Feature-Restoration-Evaluator',
+    packages=['fre'],
     install_requires=REQUIREMENTS
 )

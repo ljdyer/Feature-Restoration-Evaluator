@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-from frmg.misc import CAPS, display_or_print, list_gclust
+from fre.misc import CAPS, display_or_print, list_gclust
 
 environment = jinja2.Environment()
 template_latex = environment.from_string("""

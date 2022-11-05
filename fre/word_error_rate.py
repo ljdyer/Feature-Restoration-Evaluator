@@ -1,6 +1,6 @@
 import pandas as pd
 
-from frmg.misc import display_or_print
+from fre.misc import display_or_print
 
 WARNING_NO_JIWER = """Could not import jiwer library. You will not be able to \
 show word error rate info."""

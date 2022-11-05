@@ -1,16 +1,10 @@
-"""
-feature_restorer_metric_getter.py
-
-Main module for FeatureRestorerMetricGetter class
-"""
-
-from frmg.confusion_matrices import (cms, prfs_all_features, show_cm_tables,
-                                     show_prfs)
-from frmg.misc import (CAPS, Int_or_Str, Str_or_List, Str_or_List_or_Series,
-                       get_tqdm, load_pickle, save_pickle,
-                       str_or_list_or_series_to_list)
-from frmg.text_display import show_feature_errors_, show_text_display_
-from frmg.word_error_rate import show_wer_info_table, wer, wer_info
+from fre.confusion_matrices import (cms, prfs_all_features, show_cm_tables,
+                                    show_prfs)
+from fre.misc import (CAPS, Int_or_Str, Str_or_List, Str_or_List_or_Series,
+                      get_tqdm, load_pickle, save_pickle,
+                      str_or_list_or_series_to_list)
+from fre.text_display import show_feature_errors_, show_text_display_
+from fre.word_error_rate import show_wer_info_table, wer, wer_info
 
 tqdm_ = get_tqdm()
 
@@ -22,7 +16,7 @@ MESSAGE_INIT_COMPLETE = "Initialisation complete."
 
 
 # ====================
-class FeatureRestorerMetricGetter:
+class FeatureRestorationEvalutor:
 
     # ====================
     def __init__(self,
@@ -32,7 +26,7 @@ class FeatureRestorerMetricGetter:
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True,
                  get_wer_info_on_init: bool = True):
-        """Initalises FeatureRestorerMetricGetter.
+        """Initalises FeatureRestorationEvalutor.
 
         Args:
           reference (Str_or_List_or_Series):
@@ -89,7 +83,7 @@ class FeatureRestorerMetricGetter:
           load_path (str): The path to the pickle file.
 
         Returns:
-          FeatureRestorerMetricGetter: The constructed class instance.
+          FeatureRestorationEvalutor: The constructed class instance.
         """
 
         self = cls.__new__(cls)

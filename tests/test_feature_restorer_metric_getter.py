@@ -1,6 +1,5 @@
-from frmg.feature_restorer_metric_getter \
-    import FeatureRestorerMetricGetter     # noqa: E402
-from frmg.misc import CAPS    # noqa: E402
+from fre import FeatureRestorationEvalutor     # noqa: E402
+from fre.misc import CAPS    # noqa: E402
 
 reference = [
     'This is a sentence.',
@@ -12,7 +11,7 @@ hypothesis = [
     'This IS another sentence.',
     'Thisis Senten ce 3'
 ]
-prc = FeatureRestorerMetricGetter(
+prc = FeatureRestorationEvalutor(
     reference, hypothesis, capitalisation=True, feature_chars='., ',
     get_wer_info_on_init=False
 )

@@ -16,6 +16,6 @@ setup(
     author='Laurence Dyer',
     author_email='ljdyer@gmail.com',
     url='https://github.com/ljdyer/Feature-Restorer-Metric-Getter',
-    packages=['frmg', 'frmg.feature_restorer_metric_getter'],
+    packages=['frmg'],
     install_requires=REQUIREMENTS
 )

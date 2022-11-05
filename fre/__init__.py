@@ -16,7 +16,7 @@ MESSAGE_INIT_COMPLETE = "Initialisation complete."
 
 
 # ====================
-class FeatureRestorationEvalutor:
+class FeatureRestorationEvaluator:
 
     # ====================
     def __init__(self,
@@ -26,7 +26,7 @@ class FeatureRestorationEvalutor:
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True,
                  get_wer_info_on_init: bool = True):
-        """Initalises FeatureRestorationEvalutor.
+        """Initalises FeatureRestorationEvaluator.
 
         Args:
           reference (Str_or_List_or_Series):
@@ -83,7 +83,7 @@ class FeatureRestorationEvalutor:
           load_path (str): The path to the pickle file.
 
         Returns:
-          FeatureRestorationEvalutor: The constructed class instance.
+          FeatureRestorationEvaluator: The constructed class instance.
         """
 
         self = cls.__new__(cls)

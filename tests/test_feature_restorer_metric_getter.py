@@ -1,4 +1,4 @@
-from fre import FeatureRestorationEvalutor     # noqa: E402
+from fre import FeatureRestorationEvaluator     # noqa: E402
 from fre.misc import CAPS    # noqa: E402
 
 reference = [
@@ -11,7 +11,7 @@ hypothesis = [
     'This IS another sentence.',
     'Thisis Senten ce 3'
 ]
-prc = FeatureRestorationEvalutor(
+prc = FeatureRestorationEvaluator(
     reference, hypothesis, capitalisation=True, feature_chars='., ',
     get_wer_info_on_init=False
 )

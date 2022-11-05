@@ -10,6 +10,7 @@ REQUIREMENTS = [
     'Jinja2',
 ]
 
+print("FRMG setup.")
 print(find_packages('src'))
 
 setup(

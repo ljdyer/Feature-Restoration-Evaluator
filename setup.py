@@ -10,6 +10,8 @@ REQUIREMENTS = [
     'Jinja2',
 ]
 
+print(find_packages('src'))
+
 setup(
     name='frmg',
     version='1.0',

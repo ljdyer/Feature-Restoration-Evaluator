@@ -305,7 +305,26 @@ class FeatureRestorationEvaluator:
                           num_rows: int = None,
                           for_latex: bool = False,
                           ignore: list = None):
+        """Display a hypothesis document with false positives and false
+        negatives highlighted.
 
+        Args:
+          doc_idx (int):
+            The index of the document to display.
+          start_char (int, optional): 
+            The character to display from. If None, displays from beginning
+            of document. Defaults to None.
+          chars_per_row (int, optional):
+            The number of characters to display per row. If None, no line break
+            characters will be inserted so the display will break according to
+            the line breaking rules in the environment. Defaults to None.
+          num_rows (int, optional):
+            Number of rows to display. Defaults to None.
+          for_latex (bool, optional):
+            Whether to render the output for LaTeX. Defaults to False.
+          ignore (list, optional):
+            A list of features to ignore (e.g. ['.', ',']). Defaults to None.
+        """
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()
         show_text_display_(
@@ -320,6 +339,18 @@ class FeatureRestorationEvaluator:
                             doc_idx: int,
                             feature_to_check: str,
                             chars_either_side: int = 10):
+        """Display a list of errors for a given feature in a given
+        document.
+
+        Args:
+          doc_idx (int):
+            The index of the document to show errors for.
+          feature_to_check (str):
+            The feature to show errors for (e.g. '.')
+          chars_either_side (int, optional):
+            The number of characters to display either side of the error.
+            Defaults to 10.
+        """
 
         ref = self.reference[doc_idx].strip()
         hyp = self.hypothesis[doc_idx].strip()

@@ -1,10 +1,12 @@
-from fre.confusion_matrices import (cms, prfs_all_features, show_cm_tables,
+from fre.char_level_metrics import (get_cms, prfs_all_features, show_cms,
                                     show_prfs)
 from fre.misc import (CAPS, Int_or_Str, Str_or_List, Str_or_List_or_Series,
                       get_tqdm, load_pickle, save_pickle,
                       str_or_list_or_series_to_list)
 from fre.text_display import show_feature_errors_, show_text_display_
 from fre.word_error_rate import show_wer_info_table, wer, wer_info
+
+from typing import List
 
 tqdm_ = get_tqdm()
 
@@ -191,7 +193,9 @@ class FeatureRestorationEvaluator:
     # === CONFUSION MATRICES ===
 
     # ====================
-    def show_confusion_matrices(self, doc_idx: Int_or_Str = 'all'):
+    def show_confusion_matrices(self,
+                                doc_idx: Int_or_Str = 'all',
+                                features_to_show: List[str] = None):
         """Show confusion matrices for each feature, for either a
         single document or all documents.
 
@@ -200,11 +204,14 @@ class FeatureRestorationEvaluator:
             Either an integer indicating the index of the document to
             show confusion matrices for, or 'all' to show confusion
             matrices for all documents in the corpus. Defaults to 'all'.
+          features_to_show (List[str]):
+            Features to show confusion matrices for. If None, show
+            confusion matrics for all features. Defaults to None.
         """
 
         self.get_cms(doc_idx)
         cms = self.cms[doc_idx]
-        show_cm_tables(cms)
+        show_cms(cms)
 
     # ====================
     def get_cms(self, scope: Int_or_Str):
@@ -234,7 +241,7 @@ class FeatureRestorationEvaluator:
         self.cms['all'] = all_docs
 
     # ====================
-    def get_cms_doc(self, doc_idx: int) -> dict:
+    def get_cms_doc(self, doc_idx: int):
         """Get confusion matrices for a single document.
 
         Args:
@@ -246,14 +253,13 @@ class FeatureRestorationEvaluator:
             A dictionary containing the confusion matrices.
         """
 
-        cm_doc = cms(
+        cm_doc = get_cms(
             self.reference[doc_idx].strip(),
             self.hypothesis[doc_idx].strip(),
             self.features,
             doc_idx
         )
         self.cms[doc_idx] = cm_doc
-        return cm_doc
 
     # === PRECISON, RECALL, AND F-SCORE ===
 
@@ -282,6 +288,8 @@ class FeatureRestorationEvaluator:
     def get_prfs(self,
                  doc_idx: Int_or_Str = 'all',
                  display_names: bool = False) -> dict:
+        """Only used for testing.
+        """
 
         self.get_cms(doc_idx)
         cms = self.cms[doc_idx]

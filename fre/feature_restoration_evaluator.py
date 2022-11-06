@@ -211,7 +211,7 @@ class FeatureRestorationEvaluator:
 
         self.get_cms(doc_idx)
         cms = self.cms[doc_idx]
-        show_cms(cms)
+        show_cms(cms, features_to_show)
 
     # ====================
     def get_cms(self, scope: Int_or_Str):

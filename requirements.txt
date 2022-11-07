@@ -4,4 +4,3 @@ tqdm
 uniseg
 jiwer
 Jinja2
-pytest

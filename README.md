@@ -1,37 +1,45 @@
 # Feature Restoration Evaluator
 
-A Python class for calculating precision/recall/F-score and word error rate (WER) metrics for the outputs of feature restoration models against reference strings.
+A Python library for quantitative and qualitative evaluation of restoration of textual features using machine learning models.
+
+Developed and used for the paper "Comparison of Token- and Character-Level Approaches to Restoration of Spaces, Punctuation, and Capitalization in Various Languages", which is scheduled for publication in December 2022.
+
+## Interactive demo
+
+Check out the interactive demo [here](https://colab.research.google.com/drive/1JkQAEH2uNDQkVl7BNj8vrsOeFbSeGNn_?usp=sharing) to try out the library for yourself in a Google Colab notebook using sample data from the results of the models discussed in the paper.
+
+Alternatively, scroll down for instructions on getting started and basic documentation.
 
 ## Getting started
 
-Install the package
+### Install the library using `pip`
 
-
-
-### 3. Import FeatureRestorerMetricGetter class
-
-```python
-from feature_restorer_metric_getter import FeatureRestorerMetricGetter
+```
+!pip install git+https://github.com/ljdyer/feature-restoration-evaluator.git
 ```
 
-## How to use
+### Import the `FeatureRestorationEvaluator` class
 
-You can also check out the example notebook [here](FeatureRestorerMetricGetter_Example.ipynb).
+```python
+from fre import FeatureRestorationEvaluator
+```
 
-### Initializing a class instance
+## Evaluate feature restorations using the `FeatureRestorationEvaluator` class
 
-#### FeatureRestorerMetricGetter.\_\_init\_\_
+### Initialize an instance of the FeatureRestorationEvaluator class
+
+#### FeatureRestorationMetricEvaluator.\_\_init\_\_
 
 ```python
     # ====================
     def __init__(self,
                  reference: Str_or_List_or_Series,
                  hypothesis: Str_or_List_or_Series,
-                 capitalisation: bool,
+                 capitalization: bool,
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True,
                  get_wer_info_on_init: bool = True):
-        """Initalises FeatureRestorerMetricGetter.
+        """Initalises FeatureRestorationEvaluator.
 
         Args:
           reference (Str_or_List_or_Series):
@@ -41,8 +49,8 @@ You can also check out the example notebook [here](FeatureRestorerMetricGetter_E
             Either a single string, or a list or pandas.Series object of
             strings ('documents') to use as the hypothesis corpus.
             (Number of documents must be the same as reference.)
-          capitalisation (bool):
-            Whether or not to treat capitalisation as a feature to be assessed.
+          capitalization (bool):
+            Whether or not to treat capitalization as a feature to be assessed.
           feature_chars (Str_or_List):
             A string or list of characters containing other characters to treat
             as features (e.g. '., ' for periods, commas, and spaces.)
@@ -71,14 +79,14 @@ TEST_PATH = 'drive/MyDrive/PAPER/data/ted_talks/ted_test.csv'
 RESULTS_PATH = 'drive/MyDrive/PAPER/models/05_bilstm_e2e/english/TedTalks/results.csv'
 reference = pd.read_csv(TEST_PATH)['all_cleaned'].to_list()
 hypothesis = pd.read_csv(RESULTS_PATH)['results'].to_list()
-frmg = FeatureRestorerMetricGetter(reference, hypothesis, True, '., ', False, False)
+frmg = FeatureRestorationMetricGetter(reference, hypothesis, True, '., ', False, False)
 ```
 
 <img src="readme-img/init.PNG"></img>
 
 ### Displaying precision, recall, and F-score metrics
 
-#### FeatureRestorerMetricGetter.show_prfs
+#### FeatureRestorationMetricEvaluator.show_prfs
 
 ```python
     # ====================
@@ -102,18 +110,20 @@ frmg = FeatureRestorerMetricGetter(reference, hypothesis, True, '., ', False, Fa
 #### Example usage:
 
 ```python
-frmg.show_prfs()
+src.show_prfs()
 ```
 
 <img src="readme-img/show_prfs.PNG"></img>
 
 ### Displaying confusion matrices
 
-#### FeatureRestorerMetricGetter.show_confusion_matrices
+#### FeatureRestorationMetricEvaluator.show_confusion_matrices
 
 ```python
     # ====================
-    def show_confusion_matrices(self, doc_idx: Int_or_Str = 'all'):
+    def show_confusion_matrices(self,
+                                doc_idx: Int_or_Str = 'all',
+                                features_to_show: List[str] = None):
         """Show confusion matrices for each feature, for either a
         single document or all documents.
 
@@ -122,6 +132,9 @@ frmg.show_prfs()
             Either an integer indicating the index of the document to
             show confusion matrices for, or 'all' to show confusion
             matrices for all documents in the corpus. Defaults to 'all'.
+          features_to_show (List[str]):
+            Features to show confusion matrices for. If None, show
+            confusion matrics for all features. Defaults to None.
         """
 ```
 
@@ -133,7 +146,7 @@ fmrg.show_confusion_matrices()
 
 ### Displaying WER information
 
-#### FeatureRestorerMetricGetter.show_wer_info
+#### FeatureRestorationMetricEvaluator.show_wer_info
 
 ```python
     # ====================

@@ -6,7 +6,7 @@ Developed and used for the paper "Comparison of Token- and Character-Level Appro
 
 ## Interactive demo
 
-Check out the interactive demo [here](https://colab.research.google.com/drive/1JkQAEH2uNDQkVl7BNj8vrsOeFbSeGNn_?usp=sharing) to try out the library for yourself in a Google Colab notebook using sample data from the results of the models discussed in the paper.
+Check out the interactive demo <a href="https://colab.research.google.com/drive/1JkQAEH2uNDQkVl7BNj8vrsOeFbSeGNn_?usp=sharing" target="_blank">here</a> to try out the library for yourself in a Google Colab notebook using sample data from the results of the models discussed in the paper.
 
 Alternatively, scroll down for instructions on getting started and basic documentation.
 

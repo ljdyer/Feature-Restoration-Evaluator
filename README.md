@@ -1,6 +1,6 @@
 # Feature Restoration Evaluator
 
-A Python library for quantitative and qualitative evaluation of restoration of textual features using machine learning models.
+A Python library for quantitative and qualitative evaluation of restorations of textual features using machine learning models.
 
 Developed and used for the paper "Comparison of Token- and Character-Level Approaches to Restoration of Spaces, Punctuation, and Capitalization in Various Languages", which is scheduled for publication in December 2022.
 

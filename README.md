@@ -28,7 +28,7 @@ from fre import FeatureRestorationEvaluator
 
 ### Initialize an instance of the `FeatureRestorationEvaluator` class
 
-#### `FeatureRestorationMetricEvaluator.__init__`
+#### `FeatureRestorationEvaluator.__init__`
 
 ```python
     # ====================
@@ -87,7 +87,7 @@ my_fre = FeatureRestorationEvaluator(
 
 ### Show precision, recall, and F-score metrics
 
-#### `FeatureRestorationMetricEvaluator.show_prfs`
+#### `FeatureRestorationEvaluator.show_prfs`
 
 ```python
     # ====================
@@ -118,7 +118,7 @@ my_fre.show_prfs()
 
 ### Show confusion matrices
 
-#### `FeatureRestorationMetricEvaluator.show_confusion_matrices`
+#### `FeatureRestorationEvaluator.show_confusion_matrices`
 
 ```python
     # ====================
@@ -149,7 +149,7 @@ my_fre.show_confusion_matrices('all', ['CAPS'])
 
 ### Show word error rate (WER) information
 
-#### `FeatureRestorationMetricEvaluator.show_wer_info`
+#### `FeatureRestorationEvaluator.show_wer_info`
 
 ```python
     # ====================
@@ -179,7 +179,7 @@ my_fre.show_wer_info()
 
 ### Display the hypothesis document with false positives and false negatives highlighted
 
-#### `FeatureRestorationMetricEvaluator.show_text_display`
+#### `FeatureRestorationEvaluator.show_text_display`
 
 ```python
     # ====================
@@ -222,7 +222,7 @@ my_fre.show_text_display(0, num_rows=5, chars_per_row=40)
 
 ### Display a list of errors for a given feature in a given document
 
-#### `FeatureRestorationMetricEvaluator.show_feature_errors`
+#### `FeatureRestorationEvaluator.show_feature_errors`
 
 ```python
     # ====================

@@ -28,7 +28,7 @@ class FeatureRestorationEvaluator:
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True,
                  get_wer_info_on_init: bool = True):
-        """Initalises FeatureRestorationEvaluator.
+        """Initializes an instance of FeatureRestorationEvaluator.
 
         Args:
           reference (Str_or_List_or_Series):

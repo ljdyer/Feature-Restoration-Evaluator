@@ -6,7 +6,7 @@ Developed and used for the paper "Comparison of Token- and Character-Level Appro
 
 ## Interactive demo
 
-Check out the interactive demo <a href="https://colab.research.google.com/drive/1JkQAEH2uNDQkVl7BNj8vrsOeFbSeGNn_?usp=sharing" target="_blank">here</a> to try out the library for yourself in a Google Colab notebook using sample data from the results of the models discussed in the paper.
+Check out the interactive demo [here](https://colab.research.google.com/drive/1JkQAEH2uNDQkVl7BNj8vrsOeFbSeGNn_?usp=sharing) to try out the library for yourself in a Google Colab notebook using sample data from the results of the models discussed in the paper.
 
 Alternatively, scroll down for instructions on getting started and basic documentation.
 
@@ -26,9 +26,9 @@ from fre import FeatureRestorationEvaluator
 
 ## Evaluate feature restorations using the `FeatureRestorationEvaluator` class
 
-### Initialize an instance of the FeatureRestorationEvaluator class
+### Initialize an instance of the `FeatureRestorationEvaluator` class
 
-#### FeatureRestorationMetricEvaluator.\_\_init\_\_
+#### `FeatureRestorationMetricEvaluator.__init__`
 
 ```python
     # ====================
@@ -39,7 +39,7 @@ from fre import FeatureRestorationEvaluator
                  feature_chars: Str_or_List,
                  get_cms_on_init: bool = True,
                  get_wer_info_on_init: bool = True):
-        """Initalises FeatureRestorationEvaluator.
+        """Initializes an instance of FeatureRestorationEvaluator.
 
         Args:
           reference (Str_or_List_or_Series):
@@ -75,18 +75,19 @@ from fre import FeatureRestorationEvaluator
 #### Example usage:
 
 ```python
-TEST_PATH = 'drive/MyDrive/PAPER/data/ted_talks/ted_test.csv'
-RESULTS_PATH = 'drive/MyDrive/PAPER/models/05_bilstm_e2e/english/TedTalks/results.csv'
-reference = pd.read_csv(TEST_PATH)['all_cleaned'].to_list()
-hypothesis = pd.read_csv(RESULTS_PATH)['results'].to_list()
-frmg = FeatureRestorationMetricGetter(reference, hypothesis, True, '., ', False, False)
+my_fre = FeatureRestorationEvaluator(
+    sample_data['reference'],
+    sample_data['BiLSTMCharE2E_result'],
+    capitalization=True,
+    feature_chars='., '
+)
 ```
 
-<img src="readme-img/init.PNG"></img>
+<img src="readme-img/01-init.PNG"></img>
 
-### Displaying precision, recall, and F-score metrics
+### Show precision, recall, and F-score metrics
 
-#### FeatureRestorationMetricEvaluator.show_prfs
+#### `FeatureRestorationMetricEvaluator.show_prfs`
 
 ```python
     # ====================
@@ -110,14 +111,14 @@ frmg = FeatureRestorationMetricGetter(reference, hypothesis, True, '., ', False,
 #### Example usage:
 
 ```python
-src.show_prfs()
+my_fre.show_prfs()
 ```
 
-<img src="readme-img/show_prfs.PNG"></img>
+<img src="readme-img/02-show_prfs.PNG"></img>
 
-### Displaying confusion matrices
+### Show confusion matrices
 
-#### FeatureRestorationMetricEvaluator.show_confusion_matrices
+#### `FeatureRestorationMetricEvaluator.show_confusion_matrices`
 
 ```python
     # ====================
@@ -141,12 +142,14 @@ src.show_prfs()
 #### Example usage:
 
 ```python
-fmrg.show_confusion_matrices()
+my_fre.show_confusion_matrices('all', ['CAPS'])
 ```
 
-### Displaying WER information
+<img src="readme-img/03-show_confusion_matrices.PNG"></img>
 
-#### FeatureRestorationMetricEvaluator.show_wer_info
+### Show word error rate (WER) information
+
+#### `FeatureRestorationMetricEvaluator.show_wer_info`
 
 ```python
     # ====================
@@ -169,7 +172,82 @@ fmrg.show_confusion_matrices()
 #### Example usage:
 
 ```python
-fmrg.show_wer_info()
+my_fre.show_wer_info()
 ```
 
-<img src="readme-img/show_wer.PNG"></img>
+<img src="readme-img/04-show_wer_info.PNG"></img>
+
+### Display the hypothesis document with false positives and false negatives highlighted
+
+#### `FeatureRestorationMetricEvaluator.show_text_display`
+
+```python
+    # ====================
+    def show_text_display(self,
+                          doc_idx: int,
+                          start_char: int = None,
+                          chars_per_row: int = None,
+                          num_rows: int = None,
+                          for_latex: bool = False,
+                          ignore: list = None):
+        """Display a hypothesis document with false positives and false
+        negatives highlighted.
+
+        Args:
+          doc_idx (int):
+            The index of the document to display.
+          start_char (int, optional): 
+            The character to display from. If None, displays from beginning
+            of document. Defaults to None.
+          chars_per_row (int, optional):
+            The number of characters to display per row. If None, no line break
+            characters will be inserted so the display will break according to
+            the line breaking rules in the environment. Defaults to None.
+          num_rows (int, optional):
+            Number of rows to display. Defaults to None.
+          for_latex (bool, optional):
+            Whether to render the output for LaTeX. Defaults to False.
+          ignore (list, optional):
+            A list of features to ignore (e.g. ['.', ',']). Defaults to None.
+        """
+```
+
+#### Example usage:
+
+```python
+my_fre.show_text_display(0, num_rows=5, chars_per_row=40)
+```
+
+<img src="readme-img/05-show_text_display.PNG"></img>
+
+### Display a list of errors for a given feature in a given document
+
+#### `FeatureRestorationMetricEvaluator.show_feature_errors`
+
+```python
+    # ====================
+    def show_feature_errors(self,
+                            doc_idx: int,
+                            feature_to_check: str,
+                            chars_either_side: int = 10):
+        """Display a list of errors for a given feature in a given
+        document.
+
+        Args:
+          doc_idx (int):
+            The index of the document to show errors for.
+          feature_to_check (str):
+            The feature to show errors for (e.g. '.')
+          chars_either_side (int, optional):
+            The number of characters to display either side of the error.
+            Defaults to 10.
+        """
+```
+
+#### Example usage:
+
+```python
+my_fre.show_feature_errors(0, '.')
+```
+
+<img src="readme-img/06-show_feature_errors.PNG"></img>

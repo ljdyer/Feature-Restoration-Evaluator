@@ -5,7 +5,7 @@ REQUIREMENTS = [
     'scikit-learn',
     'tqdm',
     'uniseg',
-    'jiwer',
+    'jiwer==2.5.1',
     'Jinja2',
 ]
 

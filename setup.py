@@ -2,7 +2,7 @@ from setuptools import setup
 
 REQUIREMENTS = [
     'pandas',
-    'sklearn',
+    'scikit-learn',
     'tqdm',
     'uniseg',
     'jiwer',
